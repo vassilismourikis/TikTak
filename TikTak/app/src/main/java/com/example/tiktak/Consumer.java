@@ -1,6 +1,4 @@
 package com.example.tiktak;
-
-
 import java.io.*;
 import java.math.BigInteger;
 import java.net.*;
