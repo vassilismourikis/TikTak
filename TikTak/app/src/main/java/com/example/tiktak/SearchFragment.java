@@ -28,6 +28,10 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view =inflater.inflate(R.layout.fragment_search, container, false);
+
+        Intent i = getActivity().getIntent();
+
+        Client c = (Client) i.getSerializableExtra("Client");
         // Inflate the layout for this fragment
         final ListView list = view.findViewById(R.id.list);
         ArrayList<String> arrayList = new ArrayList<>();

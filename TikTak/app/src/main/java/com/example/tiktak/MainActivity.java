@@ -1,5 +1,7 @@
 package com.example.tiktak;
 import android.os.Bundle;
+import android.os.Parcelable;
+
 import com.google.android.material.tabs.TabLayout;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
@@ -22,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         c=new Client("vasilis");
-        
+
 
         tabLayout = findViewById(R.id.tabBar);
         viewPager = findViewById(R.id.viewPager);
@@ -35,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         pagerAdapter.addFragment(new SearchFragment(),"Search");
         pagerAdapter.addFragment(new ProfileFragment(),"Profile");
         pagerAdapter.addFragment(new SubscribeFragment(),"Subscribe");
+
+        getIntent().putExtra("Client", (Parcelable) c);
 
         viewPager.setAdapter(pagerAdapter);
 
