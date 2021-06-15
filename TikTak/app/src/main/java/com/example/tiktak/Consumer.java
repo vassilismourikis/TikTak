@@ -8,6 +8,8 @@ import java.util.*;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
+import static android.os.Environment.getExternalStorageDirectory;
+
 public class Consumer extends AsyncTask<String, String, String> implements Node{
     private int choice=-1;
     Socket requestSocket;
@@ -258,7 +260,7 @@ public class Consumer extends AsyncTask<String, String, String> implements Node{
         networks=new ArrayList<String>();
         networks_hashes=new ArrayList<String>();
         try {
-            File myObj = new File("broker.txt");
+            File myObj = new File(getExternalStorageDirectory().getAbsolutePath()+"/Android/media/"+"Client"+ name + "/broker.txt");
             Scanner myReader = new Scanner(myObj);
             int counter=0;
             while (myReader.hasNextLine()) {

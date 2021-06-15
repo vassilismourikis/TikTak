@@ -1,12 +1,7 @@
 package com.example.tiktak;
-
 import android.media.MediaMetadataRetriever;
 import android.os.AsyncTask;
 import android.util.Log;
-
-
-import org.xml.sax.SAXException;
-
 import java.io.*;
 import java.math.BigInteger;
 import java.net.*;
@@ -36,14 +31,16 @@ public class Publisher extends AsyncTask<String, String, String> implements Node
     private ArrayList<BigInteger>  big;
     private boolean areActionsDone = true;
 
+
+
+
     public Publisher(String s){
         this.channelName=new ChannelName(s);
         networks=new ArrayList<String>();
         networks_hashes=new ArrayList<String>();
+
         try {
-            File dir = getExternalStorageDirectory();
-            String path = dir.getAbsolutePath()+"/Android/media/";
-            File myObj = new File(path+"Client"+channelName.toString()+"/"+"broker.txt");
+            File myObj = new File(getExternalStorageDirectory().getAbsolutePath()+"/Android/media/"+"Client"+channelName.toString() + "/broker.txt");
             Scanner myReader = new Scanner(myObj);
             int counter=0;
             while (myReader.hasNextLine()) {
