@@ -37,10 +37,13 @@ public class Publisher extends AsyncTask<String, String, String> implements Node
     private boolean areActionsDone = true;
 
     public Publisher(String s){
+        this.channelName=new ChannelName(s);
         networks=new ArrayList<String>();
         networks_hashes=new ArrayList<String>();
         try {
-            File myObj = new File("broker.txt");
+            File dir = getExternalStorageDirectory();
+            String path = dir.getAbsolutePath()+"/Android/media/";
+            File myObj = new File(path+"Client"+channelName.toString()+"/"+"broker.txt");
             Scanner myReader = new Scanner(myObj);
             int counter=0;
             while (myReader.hasNextLine()) {
@@ -69,7 +72,7 @@ public class Publisher extends AsyncTask<String, String, String> implements Node
 
 
 
-        this.channelName=new ChannelName(s);
+
         String hashh="";
         String hash =MD5.getMd5(channelName.toString());
         try {

@@ -3,6 +3,7 @@ package com.example.tiktak;
 
 import java.io.File;
 import java.util.*;
+import static android.os.Environment.getExternalStorageDirectory;
 
 public class Client{
 
@@ -12,12 +13,13 @@ public class Client{
 	static Scanner scanForConsumer;
 	static Scanner scanForPublisher;
 	Client(String name) {
-		System.out.println(name);
+		File dir = getExternalStorageDirectory();
+		String path = dir.getAbsolutePath()+"/Android/media/";
+		new File(path+"Client"+name).mkdir();
+		new File(path+"Client"+name+"/Publisher").mkdir();
+		new File(path+"Client"+name+"/Consumer").mkdir();
 		publisher= new Publisher(name);
 		consumer= new Consumer(name);
-		new File("Client"+name).mkdir();
-		new File("Client"+name+"/Publisher").mkdir();
-		new File("Client"+name+"/Consumer").mkdir();
 		publisher.execute();
 		consumer.execute();
 	}

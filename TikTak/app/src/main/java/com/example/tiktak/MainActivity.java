@@ -9,8 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 
-import java.io.File;
-import static android.os.Environment.getExternalStorageDirectory;
+
 
 @SuppressWarnings("deprecation")
 public class MainActivity extends AppCompatActivity {
@@ -23,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        c=new Client("vasilis");
+        c=new Client("Vasilis");
 
 
         tabLayout = findViewById(R.id.tabBar);
