@@ -13,8 +13,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
-
-
+import java.io.Serializable;
 
 
 @SuppressWarnings("deprecation")
@@ -72,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         pagerAdapter.addFragment(new ProfileFragment(),"Profile");
         pagerAdapter.addFragment(new SubscribeFragment(),"Subscribe");
 
-        getIntent().putExtra("Client", (Parcelable) c);
+        getIntent().putExtra("Client", c);
 
         viewPager.setAdapter(pagerAdapter);
 

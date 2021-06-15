@@ -2,10 +2,11 @@ package com.example.tiktak;
 
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.*;
 import static android.os.Environment.getExternalStorageDirectory;
 
-public class Client{
+public class Client implements Serializable {
 
 	private Publisher publisher;
 	private Consumer consumer;
