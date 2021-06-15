@@ -310,7 +310,8 @@ public class Consumer extends AsyncTask<String, String, String> implements Node{
 
             thread.start();
 
-        } catch (IOException e) {
+            thread.join(); //waits till ip is available
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
 

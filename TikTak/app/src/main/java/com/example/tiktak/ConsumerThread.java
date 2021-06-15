@@ -11,10 +11,12 @@ public class ConsumerThread extends Thread{
         private ServerSocket providerSocket;
         private Consumer c;
 
+
         public ConsumerThread(Consumer c){
             connection=null;
             providerSocket=c.getServer();
             this.c=c;
+            //System.out.println("CONSUMERS IP:  " +c.getServer().getInetAddress().toString().substring(1));
         }
 
         @Override

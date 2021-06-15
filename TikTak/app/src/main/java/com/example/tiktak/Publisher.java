@@ -101,11 +101,11 @@ public class Publisher extends AsyncTask<String, String, String> implements Node
 
             thread.start();
 
-
+            thread.join(); //waits till ip is available
             PublisherThread t=new PublisherThread(this);
             t.execute();
             System.out.println("PUBLISHERS THREAD STARTED");
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }

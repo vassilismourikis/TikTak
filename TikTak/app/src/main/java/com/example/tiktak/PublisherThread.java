@@ -17,6 +17,7 @@ public class PublisherThread extends AsyncTask<String, String, String> {
     public PublisherThread(Publisher p){
         connection=null;
         providerSocket=p.getServer();
+        //System.out.println("PUBLISHERS IP:  "+p.getServer().getInetAddress().toString().substring(1));
         this.p=p;
     }
 

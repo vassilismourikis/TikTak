@@ -60,7 +60,7 @@ public class SearchFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                
+
                 Intent intent = new Intent(getActivity(), UsersVideos.class);
 
                 startActivity(intent);
