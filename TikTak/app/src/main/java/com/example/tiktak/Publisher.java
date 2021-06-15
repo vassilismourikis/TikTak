@@ -51,8 +51,8 @@ public class Publisher extends AsyncTask<String, String, String> implements Node
                 if(counter==1|| counter==4 || counter==7){
                     networks_hashes.add(data);
                 }
-                System.out.println(networks);
-                System.out.println(networks_hashes);
+                //System.out.println(networks);
+                //System.out.println(networks_hashes);
                 counter++;
             }
             myReader.close();
@@ -65,7 +65,7 @@ public class Publisher extends AsyncTask<String, String, String> implements Node
         big.add(new BigInteger(networks_hashes.get(1)));
         big.add(new BigInteger(networks_hashes.get(2)));
         Collections.sort(big);
-        System.out.println(big);
+        //System.out.println(big);
 
 
 
@@ -81,13 +81,26 @@ public class Publisher extends AsyncTask<String, String, String> implements Node
         try {
             this.server=new ServerSocket();
             //server.bind(new InetSocketAddress(InetAddress.getLocalHost().getHostAddress(),0));
-            String ip="";
-            try(final DatagramSocket socket = new DatagramSocket()){
-                socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
-                ip = socket.getLocalAddress().getHostAddress();
-            }
-            System.out.println("PUBLISHER   "+ ip);
-            server.bind(new InetSocketAddress(ip,0));
+            final String[] ip = {""};
+            Thread thread = new Thread(new Runnable() {
+
+                @Override
+                public void run() {
+                    try  {
+                        try(final DatagramSocket socket = new DatagramSocket()){
+                            socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
+                            ip[0] = socket.getLocalAddress().getHostAddress();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            thread.start();
+
+            System.out.println("PUBLISHER   "+ ip[0]);
+            server.bind(new InetSocketAddress(ip[0],0));
             PublisherThread t=new PublisherThread(this);
             t.execute();
             System.out.println("PUBLISHERS THREAD STARTED");
