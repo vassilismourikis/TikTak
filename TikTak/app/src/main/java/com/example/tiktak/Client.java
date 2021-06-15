@@ -18,13 +18,13 @@ public class Client{
 		new File("Client"+name).mkdir();
 		new File("Client"+name+"/Publisher").mkdir();
 		new File("Client"+name+"/Consumer").mkdir();
-		publisher.start();
-		consumer.start();
+		publisher.execute();
+		consumer.execute();
 	}
 
 
 
-	
+	/*
 	public static void main(String args[]){
 
 		Client c=new Client("vasilis");
@@ -100,5 +100,5 @@ public class Client{
 		System.out.println("6. Subscribe to a topic");
 		System.out.println("0. Close client ");
 	}
-
+*/
 }

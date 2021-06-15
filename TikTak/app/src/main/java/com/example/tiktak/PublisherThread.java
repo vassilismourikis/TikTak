@@ -1,11 +1,13 @@
 package com.example.tiktak;
 
 
+import android.os.AsyncTask;
+
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 
-public class PublisherThread extends Thread{
+public class PublisherThread extends AsyncTask<String, String, String> {
 
 
     private Socket connection;
@@ -19,17 +21,17 @@ public class PublisherThread extends Thread{
     }
 
     @Override
-    public void run() {
+    protected String doInBackground(String... strings) {
         while(true){
             try {
                 //System.out.println("publisher thread");
                 //waiting for client
                 connection = providerSocket.accept();
 
-                Thread t1 = new ActionsForPublishers(connection,p);
+                ActionsForPublishers t1 = new ActionsForPublishers(connection,p);
 
 
-                t1.start();
+                t1.execute();
             }catch(SocketException e){
                 //System.out.println("publisherThread terminated");
                 break;
@@ -38,6 +40,7 @@ public class PublisherThread extends Thread{
                 System.out.println(e);
             }
         }
+        return null;
     }
 
 }

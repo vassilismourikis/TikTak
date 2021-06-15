@@ -25,10 +25,10 @@ public class ConsumerThread extends Thread{
                     //waiting for client
                     connection = providerSocket.accept();
 
-                    Thread t1 = new ActionsForConsumers(connection,c);
+                    ActionsForConsumers t1 = new ActionsForConsumers(connection,c);
 
 
-                    t1.start();
+                    t1.execute();
                 }catch(SocketException e){
                     //System.out.println("publisherThread terminated");
                     break;

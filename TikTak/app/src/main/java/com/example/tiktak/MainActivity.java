@@ -15,14 +15,14 @@ public class MainActivity extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager viewPager;
     private final int STORAGE_PERMISSION_CODE = 1;
-
+    Client c;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //createUser("Vasilis");
+        c=new Client("vasilis");
+        
 
         tabLayout = findViewById(R.id.tabBar);
         viewPager = findViewById(R.id.viewPager);
@@ -45,13 +45,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void createUser(String name){
-        File dir = getExternalStorageDirectory();
-        String path = dir.getAbsolutePath()+"/Android/media/";
-        new File(path+"Client"+name).mkdir();
-        new File(path+"Client"+name+"/Publisher").mkdir();
-        new File(path+"Client"+name+"/Consumer").mkdir();
-    }
+
 
 
 

@@ -112,21 +112,22 @@ networks_hashes=new ArrayList<String>();
         //broker=new BrokerNode(3,64289);//Broker 3
 
 
-        Thread t = new BrokerThread(broker);
+        BrokerThread t = new BrokerThread(broker);
 
-        t.start();
+
+        t.execute();
 
         while(true){
             try {
                 //waiting for client
                 connection = broker.getSocket().accept();
                 //Πολυνημάτωση: Για κάθε πελάτη, ξεκίνα νέο νήμα, και συνέχισε να δέχεσαι αιτήσεις
-                Thread t1 = new ActionsForClients(connection,broker);
+                ActionsForClients t1 = new ActionsForClients(connection,broker);
                 //με την start ξεκινάει το νέο νήμα
                 // και εκτελείται η .run μέθοδος
                 // Το νέο νήμα παίρνει σαν είσοδο στον constructor του
                 //Το αντικείμενο connection που πρόκειται για την υποδοχή της συγκεκριμένης σύνδεσης με τον πελάτη
-                t1.start();
+                t1.execute();
             }
             catch (Exception e){
                 System.out.println(e);
@@ -252,8 +253,8 @@ networks_hashes=new ArrayList<String>();
                 }
                 hashtags.add(m.getA1());
                 brokersData[2]=new Container(hashtags,channelnames,port);
-                Thread t= new Refresher(brokersData[2],broker);
-                t.start();
+                Refresher t= new Refresher(brokersData[2],broker);
+                t.execute();
                 //System.out.println("saved at broker with port: " + "                     " + privateSocket.getLocalPort() + "!!!!!!!!!!!!!!!!!!!");
                 //NOTIFY THE REGISTERED UDERS------------------------------------------------------------------------------------------------------------------------
                 for(int i=0;i<registeredUsers.size();i++){
@@ -295,8 +296,8 @@ networks_hashes=new ArrayList<String>();
                 }
                 hashtags.add(m.getA1());
                 brokersData[1]=new Container(hashtags,channelnames,port);
-                Thread t= new Refresher(brokersData[1],broker);
-                t.start();
+                Refresher t= new Refresher(brokersData[1],broker);
+                t.execute();
                 //System.out.println("saved at broker with port: " + "                     " + privateSocket.getLocalPort() + "!!!!!!!!!!!!!!!!!!!");
                 //NOTIFY THE REGISTERED UDERS------------------------------------------------------------------------------------------------------------------------
                 for(int i=0;i<registeredUsers.size();i++){
@@ -339,8 +340,8 @@ networks_hashes=new ArrayList<String>();
                 }
                 hashtags.add(m.getA1());
                 brokersData[0]=new Container(hashtags,channelnames,port);
-                Thread t= new Refresher(brokersData[0],broker);
-                t.start();
+                Refresher t= new Refresher(brokersData[0],broker);
+                t.execute();
                 //System.out.println("saved at broker with port: " + "                     " + privateSocket.getLocalPort() + "!!!!!!!!!!!!!!!!!!!");
                 //NOTIFY THE REGISTERED UDERS------------------------------------------------------------------------------------------------------------------------
                 for(int i=0;i<registeredUsers.size();i++){
@@ -410,8 +411,8 @@ networks_hashes=new ArrayList<String>();
                 }
                 channelnames.add(m.getA1());
                 brokersData[2]=new Container(hashtags,channelnames,port);
-                Thread t= new Refresher(brokersData[2],broker);
-                t.start();
+                Refresher t= new Refresher(brokersData[2],broker);
+                t.execute();
                 //System.out.println("saved at broker with port: " + "                     " + privateSocket.getLocalPort() + "!!!!!!!!!!!!!!!!!!!");
                 //NOTIFY THE REGISTERED UDERS------------------------------------------------------------------------------------------------------------------------
                 for(int i=0;i<registeredUsers.size();i++){
@@ -453,8 +454,8 @@ networks_hashes=new ArrayList<String>();
                 }
                 channelnames.add(m.getA1());
                 brokersData[1]=new Container(hashtags,channelnames,port);
-                Thread t= new Refresher(brokersData[1],broker);
-                t.start();
+                Refresher t= new Refresher(brokersData[1],broker);
+                t.execute();
                 //System.out.println("saved at broker with port: " + "                     " + privateSocket.getLocalPort() + "!!!!!!!!!!!!!!!!!!!");
                 //NOTIFY THE REGISTERED UDERS------------------------------------------------------------------------------------------------------------------------
                 for(int i=0;i<registeredUsers.size();i++){
@@ -497,8 +498,8 @@ networks_hashes=new ArrayList<String>();
                 }
                 channelnames.add(m.getA1());
                 brokersData[0]=new Container(hashtags,channelnames,port);
-                Thread t= new Refresher(brokersData[0],broker);
-                t.start();
+                Refresher t= new Refresher(brokersData[0],broker);
+                t.execute();
                 //System.out.println("saved at broker with port: " + "                     " + privateSocket.getLocalPort() + "!!!!!!!!!!!!!!!!!!!");
                 //NOTIFY THE REGISTERED UDERS------------------------------------------------------------------------------------------------------------------------
                 for(int i=0;i<registeredUsers.size();i++){

@@ -1,4 +1,6 @@
 package com.example.tiktak;
+import android.os.AsyncTask;
+
 import java.io.*;
 import java.math.BigInteger;
 import java.net.*;
@@ -6,7 +8,7 @@ import java.util.*;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class Consumer extends Thread implements Node{
+public class Consumer extends AsyncTask<String, String, String> implements Node{
     private int choice=-1;
     Socket requestSocket;
     ObjectOutputStream out;
@@ -43,7 +45,7 @@ public class Consumer extends Thread implements Node{
     public void playData(String s,Value v){}
 
     @Override
-    public void run() {
+    protected String doInBackground(String... strings) {
 
         while (true) {
             if (!lock.isLocked()) {
@@ -72,6 +74,7 @@ public class Consumer extends Thread implements Node{
                 }
             }
         }
+        return null;
     }
 
     public void print(String s){

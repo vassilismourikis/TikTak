@@ -1,12 +1,14 @@
 package com.example.tiktak;
 
+import android.os.AsyncTask;
+
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.*;
 
-public class ActionsForBrokers extends Thread {
+public class ActionsForBrokers extends AsyncTask<String, String, String> {
     ObjectInputStream in;
     ObjectOutputStream out;
     BrokerNode broker;
@@ -26,7 +28,8 @@ public class ActionsForBrokers extends Thread {
         }
     }
 
-    public void run() {
+    @Override
+    protected String doInBackground(String... strings) {
 
 
         try {
@@ -59,5 +62,6 @@ public class ActionsForBrokers extends Thread {
                 ioException.printStackTrace();
             }
         }
+        return null;
     }
 }

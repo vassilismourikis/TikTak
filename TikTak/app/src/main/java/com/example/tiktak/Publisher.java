@@ -1,6 +1,7 @@
 package com.example.tiktak;
 
 import android.media.MediaMetadataRetriever;
+import android.os.AsyncTask;
 import android.util.Log;
 
 
@@ -16,7 +17,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import static android.os.Environment.getExternalStorageDirectory;
 
-public class Publisher extends Thread implements Node{
+public class Publisher extends AsyncTask<String, String, String> implements Node{
     private ChannelName channelName;
     private int choice=-1;
     private String channelNameHash;
@@ -87,8 +88,8 @@ public class Publisher extends Thread implements Node{
             }
             System.out.println("PUBLISHER   "+ ip);
             server.bind(new InetSocketAddress(ip,0));
-            Thread t=new PublisherThread(this);
-            t.start();
+            PublisherThread t=new PublisherThread(this);
+            t.execute();
             System.out.println("PUBLISHERS THREAD STARTED");
         } catch (IOException e) {
             e.printStackTrace();
@@ -115,7 +116,8 @@ public class Publisher extends Thread implements Node{
         return server;
     }
 
-    public void run() {
+    @Override
+    protected String doInBackground(String... strings) {
 
 
         try {
@@ -150,6 +152,7 @@ public class Publisher extends Thread implements Node{
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
+        return null;
     }
     public synchronized void setChoice(int c){
         this.choice=c;
