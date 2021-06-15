@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.util.ArrayList;
 
 public class SearchFragment extends Fragment {
@@ -32,6 +34,8 @@ public class SearchFragment extends Fragment {
         Intent i = getActivity().getIntent();
 
         Client c = (Client) i.getSerializableExtra("Client");
+
+
         // Inflate the layout for this fragment
         final ListView list = view.findViewById(R.id.list);
         ArrayList<String> arrayList = new ArrayList<>();
@@ -46,6 +50,7 @@ public class SearchFragment extends Fragment {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 String clickedItem=(String) list.getItemAtPosition(position);
                 Toast.makeText(SearchFragment.this.getContext(),clickedItem, Toast.LENGTH_SHORT).show();
             }
@@ -55,7 +60,7 @@ public class SearchFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-
+                
                 Intent intent = new Intent(getActivity(), UsersVideos.class);
 
                 startActivity(intent);

@@ -90,6 +90,8 @@ public class Publisher extends AsyncTask<String, String, String> implements Node
                         try(final DatagramSocket socket = new DatagramSocket()){
                             socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
                             ip[0] = socket.getLocalAddress().getHostAddress();
+                            System.out.println("PUBLISHER   "+ ip[0]);
+                            server.bind(new InetSocketAddress(ip[0],0));
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -99,8 +101,7 @@ public class Publisher extends AsyncTask<String, String, String> implements Node
 
             thread.start();
 
-            System.out.println("PUBLISHER   "+ ip[0]);
-            server.bind(new InetSocketAddress(ip[0],0));
+
             PublisherThread t=new PublisherThread(this);
             t.execute();
             System.out.println("PUBLISHERS THREAD STARTED");

@@ -299,6 +299,8 @@ public class Consumer extends AsyncTask<String, String, String> implements Node{
                         try(final DatagramSocket socket = new DatagramSocket()){
                             socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
                             ip[0] = socket.getLocalAddress().getHostAddress();
+                            System.out.println("CONSUMER   "+ ip[0]);
+                            s.bind(new InetSocketAddress(ip[0],0));
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -307,8 +309,7 @@ public class Consumer extends AsyncTask<String, String, String> implements Node{
             });
 
             thread.start();
-            System.out.println("CONSUMER   "+ ip[0]);
-            s.bind(new InetSocketAddress(ip[0],0));
+
         } catch (IOException e) {
             e.printStackTrace();
         }

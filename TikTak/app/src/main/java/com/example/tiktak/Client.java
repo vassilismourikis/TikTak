@@ -25,7 +25,13 @@ public class Client implements Serializable {
 		consumer.execute();
 	}
 
+public Publisher getPublisher(){
+		return publisher;
+}
 
+	public Consumer getConsumer(){
+		return consumer;
+	}
 
 	/*
 	public static void main(String args[]){
