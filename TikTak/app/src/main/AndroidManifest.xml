@@ -9,10 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TikTak">
+        <activity android:name=".VideoPlayer"></activity>
         <activity
             android:name=".UsersVideos"
             android:label="@string/title_activity_users_videos"
-            android:theme="@style/Theme.TikTak.NoActionBar"></activity>
+            android:theme="@style/Theme.TikTak.NoActionBar" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
