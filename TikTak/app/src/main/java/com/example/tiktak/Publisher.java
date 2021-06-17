@@ -81,31 +81,12 @@ public class Publisher extends AsyncTask<String, String, String> implements Node
         try {
             this.server=new ServerSocket();
             //server.bind(new InetSocketAddress(InetAddress.getLocalHost().getHostAddress(),0));
-            final String[] ip = {""};
-            Thread thread = new Thread(new Runnable() {
+            server.bind(new InetSocketAddress("10.0.2.2",0));
 
-                @Override
-                public void run() {
-                    try  {
-                        try(final DatagramSocket socket = new DatagramSocket()){
-                            socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
-                            ip[0] = socket.getLocalAddress().getHostAddress();
-                            System.out.println("PUBLISHER   "+ ip[0]);
-                            server.bind(new InetSocketAddress(ip[0],0));
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-
-            thread.start();
-
-            thread.join(); //waits till ip is available
             PublisherThread t=new PublisherThread(this);
             t.execute();
             System.out.println("PUBLISHERS THREAD STARTED");
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
