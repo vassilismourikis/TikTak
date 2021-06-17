@@ -290,9 +290,28 @@ public class Consumer extends AsyncTask<String, String, String> implements Node{
         try {
             s=new ServerSocket();
 
-            s.bind(new InetSocketAddress("10.0.2.2",0));
+            final String[] ip = {""};
+            Thread thread = new Thread(new Runnable() {
 
-        } catch (IOException  e) {
+                @Override
+                public void run() {
+                    try  {
+                        try(final DatagramSocket socket = new DatagramSocket()){
+                            socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
+                            ip[0] = socket.getLocalAddress().getHostAddress();
+                            System.out.println("CONSUMER   "+ ip[0]);
+                            s.bind(new InetSocketAddress(ip[0],0));
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            thread.start();
+
+            thread.join(); //waits till ip is available
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
 
