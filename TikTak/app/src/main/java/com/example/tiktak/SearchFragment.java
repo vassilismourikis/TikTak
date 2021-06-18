@@ -35,7 +35,6 @@ public class SearchFragment extends Fragment {
 
         Client c = (Client) i.getSerializableExtra("Client");
 
-
         // Inflate the layout for this fragment
         final ListView list = view.findViewById(R.id.list);
         ArrayList<String> arrayList = new ArrayList<>();

@@ -135,7 +135,8 @@ public class Publisher extends AsyncTask<String, String, String> implements Node
 
 
         try {
-            //connect();
+            Log.e("YOLO","ASIFG");
+            connect();
             //addHashtag("#FUNNY,#WOW,#yolo,#phososhooting,#interesting");
                 while(true) {
                 if(!lock.isLocked()){

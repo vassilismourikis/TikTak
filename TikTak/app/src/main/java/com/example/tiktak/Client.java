@@ -1,6 +1,9 @@
 package com.example.tiktak;
 
 
+import android.os.AsyncTask;
+import android.os.Build;
+
 import java.io.File;
 import java.io.Serializable;
 import java.util.*;
@@ -21,8 +24,15 @@ public class Client implements Serializable {
 		new File(path+"Client"+name+"/Consumer").mkdir();
 		publisher= new Publisher(name);
 		consumer= new Consumer(name);
-		publisher.execute();
-		consumer.execute();
+
+		if(Build.VERSION.SDK_INT >= 11) {
+			publisher.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+			consumer.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+		} else {
+			publisher.execute();
+			consumer.execute();
+		}
+		System.out.println("executed");
 	}
 
 public Publisher getPublisher(){
