@@ -34,6 +34,7 @@ public class SearchFragment extends Fragment {
         Intent i = getActivity().getIntent();
 
         Client c = (Client) i.getSerializableExtra("Client");
+        //TODO:GET AVAILABLE CHANNELS
 
         // Inflate the layout for this fragment
         final ListView list = view.findViewById(R.id.list);

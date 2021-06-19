@@ -136,8 +136,8 @@ public class Publisher extends AsyncTask<String, String, String> implements Node
 
         try {
             Log.e("YOLO","ASIFG");
-            connect();
-            //addHashtag("#FUNNY,#WOW,#yolo,#phososhooting,#interesting");
+
+            addHashtag("#FUNNY,#WOW,#yolo,#phososhooting,#interesting");
                 while(true) {
                 if(!lock.isLocked()){
 
@@ -411,7 +411,7 @@ public class Publisher extends AsyncTask<String, String, String> implements Node
         VideoFile v= new VideoFile(s,"minivideo",channelName.toString(),retriever.extractMetadata(5),
                 retriever.extractMetadata(9),String.valueOf(Integer.parseInt(retriever.extractMetadata(32))/Integer.parseInt(retriever.extractMetadata(9))),
                 retriever.extractMetadata(18),retriever.extractMetadata(19),hashtags);
-        File file = new File("Client"+channelName.toString()+"/Publisher/" + "minivideo" + ".mp4");
+        File file = new File(getExternalStorageDirectory().getAbsolutePath()+"/Android/media/"+"/Client"+channelName.toString()+"/Publisher/" + "minivideo" + ".mp4");
         BufferedInputStream fileInputStream = new BufferedInputStream(new FileInputStream(file));
         byte[] bytes = new byte[(int) file.length()];
         fileInputStream.read(bytes);
