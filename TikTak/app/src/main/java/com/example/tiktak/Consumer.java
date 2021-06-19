@@ -25,7 +25,13 @@ public class Consumer extends AsyncTask<String, String, String> implements Node{
     private ArrayList<String> networks;
     private ArrayList<String> networks_hashes;
     private ArrayList<BigInteger>  big;
+    private ArrayList<String> availableChannels;
+    public boolean a=true;
     //public void register(Broker b,String s){}
+
+    public ArrayList<String> getAvailableChannelsArray(){
+        return availableChannels;
+    }
 
     public String getConsumerName(){
         return name;
@@ -50,33 +56,86 @@ public class Consumer extends AsyncTask<String, String, String> implements Node{
     protected String doInBackground(String... strings) {
 
         while (true) {
-            if (!lock.isLocked()) {
-                if (choice == 4) {
-                    System.out.println("CONSUMER");
-                    choice = -1;
-                } else if (choice == 5) {
+            if(a){
+                availableChannels=getAvailableChannels();
+                System.out.println("UPDATED AVAILABLE CHANNELS");
+            }
+            if(big.size()== 100) break;
+            a=false;
+        }
 
-                    areActionsDone = false;
-                    connect();
-                    System.out.println("OUT OF CONNECT");
-                    if (infos != null) {
-                        System.out.println(infos);
-                    }
-                    else System.out.println("no entries yet");
+        return null;
+    }
 
-                    choice = -1;
-                } else if (choice == 6) {
-                    areActionsDone = false;
-                    choice = -1;
-                    //subscribe
-                }else if (choice == 0) {
-                    disconnect();
-                    areActionsDone = true;
-                    break;
+    public ArrayList<String> getAvailableChannels() {
+        connect();
+        disconnect();
+        Iterator<String> it;
+        boolean b=false;
+        String current = null;
+        ArrayList<String> ret = new ArrayList<String>();
+
+        if(infos.getInfos1()!=null) {
+            it = infos.getInfos1().iterator();
+
+
+            while (it.hasNext()) {
+
+                current = it.next();
+                connect(1);
+                try {
+                    out.writeObject(new Message(null, null, current, null, null, null, null, 20));
+                    out.flush();
+                    b = in.readBoolean();
                 }
+                catch (Exception e){
+                    System.out.println("error at availablechannels on consumer");
+                }
+                if (b) ret.add(current);
+                disconnect();
             }
         }
-        return null;
+        if(infos.getInfos2()!=null) {
+            it = infos.getInfos2().iterator();
+
+
+            while (it.hasNext()) {
+
+                current = it.next();
+                connect(2);
+                try {
+                    out.writeObject(new Message(null, null, current, null, null, null, null, 20));
+                    out.flush();
+                    b = in.readBoolean();
+                }
+                catch (Exception e){
+                    System.out.println("error at availablechannels on consumer");
+                }
+                if (b) ret.add(current);
+                disconnect();
+            }
+        }
+        if(infos.getInfos3()!=null) {
+            it = infos.getInfos3().iterator();
+
+
+            while (it.hasNext()) {
+
+                current = it.next();
+                connect(3);
+                try {
+                    out.writeObject(new Message(null, null, current, null, null, null, null, 20));
+                    out.flush();
+                    b = in.readBoolean();
+                }
+                catch (Exception e){
+                    System.out.println("error at availablechannels on consumer");
+                }
+                if (b) ret.add(current);
+                disconnect();
+            }
+        }
+        return  ret;
     }
 
     public void print(String s){

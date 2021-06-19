@@ -1,5 +1,6 @@
 package com.example.tiktak;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -21,8 +23,8 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 
 public class SearchFragment extends Fragment {
-
-
+    Client c;
+    ArrayList<String> arrayList;
 
 
     @Override
@@ -33,18 +35,18 @@ public class SearchFragment extends Fragment {
 
         Intent i = getActivity().getIntent();
 
-        Client c = (Client) i.getSerializableExtra("Client");
+       c = (Client) i.getSerializableExtra("Client");
         //TODO:GET AVAILABLE CHANNELS
+        arrayList= c.getConsumer().getAvailableChannelsArray();
 
         // Inflate the layout for this fragment
         final ListView list = view.findViewById(R.id.list);
-        ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add("JAVA");
-        arrayList.add("ANDROID");
-        arrayList.add("C Language");
-        arrayList.add("CPP Language");
-        arrayList.add("Go Language");
-        arrayList.add("AVN SYSTEMS");
+
+
+
+
+
+
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this.getContext(),android.R.layout.simple_list_item_1, arrayList);
         list.setAdapter(arrayAdapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -67,8 +69,20 @@ public class SearchFragment extends Fragment {
             }
         }
     );
+        final Button refresh = (Button)view.findViewById(R.id.refresh);
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                c.getConsumer().a=true;
+                arrayList= c.getConsumer().getAvailableChannelsArray();
+                System.out.println(arrayList);
+            }
+        });
 
         return view;
     }
+
+
 
 }
