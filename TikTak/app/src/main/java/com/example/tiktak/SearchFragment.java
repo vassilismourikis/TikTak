@@ -1,6 +1,7 @@
 package com.example.tiktak;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,7 +38,9 @@ public class SearchFragment extends Fragment {
 
        c = (Client) i.getSerializableExtra("Client");
         //TODO:GET AVAILABLE CHANNELS
+        c.getConsumer().a=true;
         arrayList= c.getConsumer().getAvailableChannelsArray();
+        System.out.println(arrayList);
 
         // Inflate the layout for this fragment
         final ListView list = view.findViewById(R.id.list);
@@ -69,20 +72,21 @@ public class SearchFragment extends Fragment {
             }
         }
     );
+
+
+
         final Button refresh = (Button)view.findViewById(R.id.refresh);
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                c.getConsumer().a=true;
-                arrayList= c.getConsumer().getAvailableChannelsArray();
-                System.out.println(arrayList);
+
             }
         });
 
+
         return view;
     }
-
 
 
 }

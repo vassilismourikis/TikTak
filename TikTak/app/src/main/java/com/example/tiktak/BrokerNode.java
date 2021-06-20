@@ -103,10 +103,7 @@ networks_hashes=new ArrayList<String>();
     }
 
     public boolean isChannelName(String s){
-        if(channelnames.contains(s)){
-            return true;
-        }
-        else return false;
+        return channelnames.contains(s);
     }
 
     public static  void main(String args[]){

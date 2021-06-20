@@ -29,7 +29,7 @@ public class Consumer extends AsyncTask<String, String, String> implements Node{
     public boolean a=true;
     //public void register(Broker b,String s){}
 
-    public ArrayList<String> getAvailableChannelsArray(){
+    public synchronized ArrayList<String> getAvailableChannelsArray(){
         return availableChannels;
     }
 
@@ -59,17 +59,19 @@ public class Consumer extends AsyncTask<String, String, String> implements Node{
             if(a){
                 availableChannels=getAvailableChannels();
                 System.out.println("UPDATED AVAILABLE CHANNELS");
+                a=false;
             }
             if(big.size()== 100) break;
-            a=false;
+
         }
 
         return null;
     }
 
-    public ArrayList<String> getAvailableChannels() {
+    public synchronized ArrayList<String> getAvailableChannels() {
         connect();
         disconnect();
+        System.out.println(infos);
         Iterator<String> it;
         boolean b=false;
         String current = null;
@@ -86,14 +88,16 @@ public class Consumer extends AsyncTask<String, String, String> implements Node{
                 try {
                     out.writeObject(new Message(null, null, current, null, null, null, null, 20));
                     out.flush();
-                    b = in.readBoolean();
+                    b = (Boolean)in.readObject();
+                    System.out.println(b + "1");
                 }
                 catch (Exception e){
-                    System.out.println("error at availablechannels on consumer");
+                    System.out.println("error at availablechannels on consumer 1" + e);
                 }
                 if (b) ret.add(current);
                 disconnect();
             }
+
         }
         if(infos.getInfos2()!=null) {
             it = infos.getInfos2().iterator();
@@ -106,14 +110,16 @@ public class Consumer extends AsyncTask<String, String, String> implements Node{
                 try {
                     out.writeObject(new Message(null, null, current, null, null, null, null, 20));
                     out.flush();
-                    b = in.readBoolean();
+                    b = (Boolean)in.readObject();
+                    System.out.println(b+ "2");
                 }
                 catch (Exception e){
-                    System.out.println("error at availablechannels on consumer");
+                    System.out.println("error at availablechannels on consumer 2"+ e);
                 }
                 if (b) ret.add(current);
                 disconnect();
             }
+
         }
         if(infos.getInfos3()!=null) {
             it = infos.getInfos3().iterator();
@@ -126,14 +132,16 @@ public class Consumer extends AsyncTask<String, String, String> implements Node{
                 try {
                     out.writeObject(new Message(null, null, current, null, null, null, null, 20));
                     out.flush();
-                    b = in.readBoolean();
+                    b = (Boolean)in.readObject();
+                    System.out.println(b+ "3");
                 }
                 catch (Exception e){
-                    System.out.println("error at availablechannels on consumer");
+                    System.out.println("error at availablechannels on consumer 3"+ e);
                 }
                 if (b) ret.add(current);
                 disconnect();
             }
+
         }
         return  ret;
     }

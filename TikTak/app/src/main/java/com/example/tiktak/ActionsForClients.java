@@ -73,7 +73,7 @@ public class ActionsForClients extends AsyncTask<String, String, String> {
 				broker.updateVideos(abMessage.getPublisher(),abMessage.getA());
 			}
 			else if(abMessage.getC()==20) {
-				out.writeBoolean(broker.isChannelName(a));
+				out.writeObject(broker.isChannelName(a));
 				out.flush();
 			}
 
