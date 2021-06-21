@@ -1,20 +1,11 @@
 package com.example.tiktak;
 import android.Manifest;
-import android.app.Activity;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
-
 import com.google.android.material.tabs.TabLayout;
-
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.io.Serializable;
-
 
 @SuppressWarnings("deprecation")
 public class MainActivity extends AppCompatActivity {

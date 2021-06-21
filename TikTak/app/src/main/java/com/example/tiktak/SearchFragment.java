@@ -79,7 +79,6 @@ public class SearchFragment extends Fragment {
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //todo:somehow refresh
                 SearchFragment fragment = new SearchFragment();
                 getFragmentManager().beginTransaction().replace(R.id.searchfrag, fragment).commit();
             }
