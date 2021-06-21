@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.net.DatagramSocket;
@@ -26,7 +27,8 @@ import java.util.ArrayList;
 public class SearchFragment extends Fragment {
     Client c;
     ArrayList<String> arrayList;
-
+    Button mButton;
+    EditText mEdit;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,6 +49,18 @@ public class SearchFragment extends Fragment {
 
 
 
+
+        mButton = (Button)view.findViewById(R.id.search);
+
+        mButton.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View inView) {
+                mEdit = (EditText)view.findViewById(R.id.search_text);
+                String hashtag=mEdit.getText().toString();
+                c.getConsumer().SelectHashtag(hashtag);
+
+            }
+        });
 
 
 

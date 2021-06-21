@@ -47,7 +47,6 @@ public class Consumer extends AsyncTask<String, String, String> implements Node{
         areActionsDone = b;
     }
 
-
     public void disconnect(Broker b,String s){}
 
     public void playData(String s,Value v){}
@@ -91,6 +90,7 @@ public class Consumer extends AsyncTask<String, String, String> implements Node{
                     b = (Boolean)in.readObject();
                     System.out.println(b + "1");
                 }
+                //TODO: MAYBE A CATCH FOR EOFException
                 catch (Exception e){
                     System.out.println("error at availablechannels on consumer 1" + e);
                 }

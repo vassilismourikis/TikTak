@@ -23,10 +23,35 @@
         android:layout_alignBottom="@+id/list"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="135dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginStart="134dp"
+        android:layout_marginTop="146dp"
         android:layout_marginEnd="135dp"
-        android:layout_marginBottom="-158dp"
+        android:layout_marginBottom="-228dp"
         android:text="refresh" />
+
+    <EditText
+        android:id="@+id/search_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/list"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="19dp"
+        android:layout_marginEnd="101dp"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <Button
+        android:id="@+id/search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/search_text"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="159dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="158dp"
+        android:text="Search" />
 
 </RelativeLayout>
