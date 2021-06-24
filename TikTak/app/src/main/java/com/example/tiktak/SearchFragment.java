@@ -96,6 +96,9 @@ public class SearchFragment extends Fragment {
                                     int position, long id) {
 
                 Intent intent = new Intent(getActivity(), UsersVideos.class);
+                Bundle b=new Bundle();
+                b.putSerializable("Client",c);
+                intent.putExtras(b);
 
                 startActivity(intent);
             }

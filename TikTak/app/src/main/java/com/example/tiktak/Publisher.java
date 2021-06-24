@@ -32,7 +32,9 @@ public class Publisher implements Node{
     private boolean areActionsDone = true;
 
 
-
+    public Map<String,Value> getVideos(){
+        return videos;
+    }
 
     public Publisher(String s){
         this.channelName=new ChannelName(s);
