@@ -1,6 +1,7 @@
 package com.example.tiktak;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -34,12 +35,7 @@ public class SubscribeFragment extends Fragment {
 
         c = (Client) i.getSerializableExtra("Client");
         //TODO:GET AVAILABLE CHANNELS
-        c.getConsumer().a=true;
-        arrayList= c.getConsumer().getAvailableChannelsArray();
-        if(arrayList==null){
-            arrayList=new ArrayList<String>();
-            arrayList.add("NO ENTRIES YET");
-        }
+        arrayList= c.getConsumer().getSubs();
         System.out.println(arrayList);
 
         // Inflate the layout for this fragment
@@ -55,8 +51,15 @@ public class SubscribeFragment extends Fragment {
             public void onClick(View inView) {
                 mEdit = (EditText)view.findViewById(R.id.search_text2);
                 String channel=mEdit.getText().toString();
+                new AsyncTask<Void,Void,Void>(){
 
-                //TODO: SUB TO channel
+                    @Override
+                    protected Void doInBackground(Void... voids) {
+                        c.getConsumer().subscribe(channel);
+                        return null;
+                    }
+                }.execute();
+
             }
         });
 

@@ -1,6 +1,7 @@
 package com.example.tiktak;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -16,7 +17,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 public class ProfileFragment extends Fragment {
     Client c;
@@ -32,11 +35,19 @@ public class ProfileFragment extends Fragment {
 
         c = (Client) i.getSerializableExtra("Client");
         //TODO:GET AVAILABLE CHANNELS
-        c.getConsumer().a=true;
-        arrayList= c.getConsumer().getAvailableChannelsArray();
-        if(arrayList==null){
-            arrayList=new ArrayList<String>();
-            arrayList.add("NO ENTRIES YET");
+        try {
+            new AsyncTask<Void,Void,Void>(){
+
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    arrayList= c.getConsumer().getAvailableChannelsArray();
+                    return null;
+                }
+            }.execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         System.out.println(arrayList);
 
@@ -78,6 +89,18 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 System.out.println("wsefa");
                 //TODO: NEA ACTIVITY FOR UPLOAD
+                new AsyncTask<Void,Void,Void>(){
+
+                    @Override
+                    protected Void doInBackground(Void... voids) {
+                        try {
+                            c.getPublisher().addHashtag("#FUNNY,#WOW,#yolo,#phososhooting,#interesting");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
+                }.execute();
             }
         });
 

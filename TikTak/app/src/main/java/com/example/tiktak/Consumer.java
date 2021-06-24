@@ -1,5 +1,6 @@
 package com.example.tiktak;
 import android.os.AsyncTask;
+import android.text.method.HideReturnsTransformationMethod;
 
 import java.io.*;
 import java.math.BigInteger;
@@ -25,12 +26,16 @@ public class Consumer implements Node{
     private ArrayList<String> networks;
     private ArrayList<String> networks_hashes;
     private ArrayList<BigInteger>  big;
-    private ArrayList<String> availableChannels;
     public boolean a=true;
     //public void register(Broker b,String s){}
 
+    public synchronized ArrayList<String> getSubs(){
+        return subs;
+    }
+
     public synchronized ArrayList<String> getAvailableChannelsArray(){
-        return availableChannels;
+        return getAvailableChannels();
+
     }
 
     public String getConsumerName(){
@@ -60,7 +65,7 @@ public class Consumer implements Node{
         boolean b=false;
         String current = null;
         ArrayList<String> ret = new ArrayList<String>();
-
+if(infos!=null){
         if(infos.getInfos1()!=null) {
             it = infos.getInfos1().iterator();
 
@@ -117,15 +122,15 @@ public class Consumer implements Node{
                 try {
                     out.writeObject(new Message(null, null, current, null, null, null, null, 20));
                     out.flush();
-                    b = (Boolean)in.readObject();
-                    System.out.println(b+ "3");
-                }
-                catch (Exception e){
-                    System.out.println("error at availablechannels on consumer 3"+ e);
+                    b = (Boolean) in.readObject();
+                    System.out.println(b + "3");
+                } catch (Exception e) {
+                    System.out.println("error at availablechannels on consumer 3" + e);
                 }
                 if (b) ret.add(current);
                 disconnect();
             }
+        }
 
         }
         return  ret;
