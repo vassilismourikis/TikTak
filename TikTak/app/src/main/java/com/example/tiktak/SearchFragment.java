@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -42,6 +43,10 @@ public class SearchFragment extends Fragment {
         //TODO:GET AVAILABLE CHANNELS
         c.getConsumer().a=true;
         arrayList= c.getConsumer().getAvailableChannelsArray();
+        if(arrayList==null){
+            arrayList=new ArrayList<String>();
+            arrayList.add("NO ENTRIES YET");
+        }
         System.out.println(arrayList);
 
         // Inflate the layout for this fragment
@@ -57,7 +62,15 @@ public class SearchFragment extends Fragment {
             public void onClick(View inView) {
                 mEdit = (EditText)view.findViewById(R.id.search_text);
                 String hashtag=mEdit.getText().toString();
-                c.getConsumer().SelectHashtag(hashtag);
+                new AsyncTask<Void,Void,Void>(){
+
+                    @Override
+                    protected Void doInBackground(Void... voids) {
+                        c.getConsumer().SelectHashtag(hashtag);
+                        return null;
+                    }
+                }.execute();
+
 
             }
         });
@@ -66,6 +79,7 @@ public class SearchFragment extends Fragment {
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this.getContext(),android.R.layout.simple_list_item_1, arrayList);
         list.setAdapter(arrayAdapter);
+
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

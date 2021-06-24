@@ -8,7 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.*;
 
-public class ActionsForBrokers extends AsyncTask<String, String, String> {
+public class ActionsForBrokers extends Thread {
     ObjectInputStream in;
     ObjectOutputStream out;
     BrokerNode broker;
@@ -29,7 +29,7 @@ public class ActionsForBrokers extends AsyncTask<String, String, String> {
     }
 
     @Override
-    protected String doInBackground(String... strings) {
+    public void run() {
 
 
         try {
@@ -62,6 +62,6 @@ public class ActionsForBrokers extends AsyncTask<String, String, String> {
                 ioException.printStackTrace();
             }
         }
-        return null;
+
     }
 }

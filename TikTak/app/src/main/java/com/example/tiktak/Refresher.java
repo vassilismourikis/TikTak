@@ -11,7 +11,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Refresher extends AsyncTask<String, String, String> {
+public class Refresher extends Thread {
     private Container data;
     private BrokerNode broker;
     private int port1,port2;
@@ -60,7 +60,7 @@ public class Refresher extends AsyncTask<String, String, String> {
         }
     }
     @Override
-    protected String doInBackground(String... strings) {
+    public void run(){
         Socket s1=null,s2=null;
         try {
             s1 = new Socket(ip1,port1);
@@ -87,7 +87,6 @@ public class Refresher extends AsyncTask<String, String, String> {
 //            }
 //
 //        }
-return null;
 
     }
 

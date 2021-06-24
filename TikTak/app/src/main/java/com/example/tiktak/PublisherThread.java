@@ -7,7 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 
-public class PublisherThread extends AsyncTask<String, String, String> {
+public class PublisherThread extends Thread {
 
 
     private Socket connection;
@@ -22,7 +22,7 @@ public class PublisherThread extends AsyncTask<String, String, String> {
     }
 
     @Override
-    protected String doInBackground(String... strings) {
+    public void run(){
         while(true){
             try {
                 //System.out.println("publisher thread");
@@ -32,7 +32,7 @@ public class PublisherThread extends AsyncTask<String, String, String> {
                 ActionsForPublishers t1 = new ActionsForPublishers(connection,p);
 
 
-                t1.execute();
+                t1.start();
             }catch(SocketException e){
                 //System.out.println("publisherThread terminated");
                 break;
@@ -41,7 +41,6 @@ public class PublisherThread extends AsyncTask<String, String, String> {
                 System.out.println(e);
             }
         }
-        return null;
     }
 
 }

@@ -10,7 +10,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import static android.os.Environment.getExternalStorageDirectory;
 
-public class Consumer extends AsyncTask<String, String, String> implements Node{
+public class Consumer implements Node{
     private int choice=-1;
     Socket requestSocket;
     ObjectOutputStream out;
@@ -51,21 +51,6 @@ public class Consumer extends AsyncTask<String, String, String> implements Node{
 
     public void playData(String s,Value v){}
 
-    @Override
-    protected String doInBackground(String... strings) {
-
-        while (true) {
-            if(a){
-                availableChannels=getAvailableChannels();
-                System.out.println("UPDATED AVAILABLE CHANNELS");
-                a=false;
-            }
-            if(big.size()== 100) break;
-
-        }
-
-        return null;
-    }
 
     public synchronized ArrayList<String> getAvailableChannels() {
         connect();

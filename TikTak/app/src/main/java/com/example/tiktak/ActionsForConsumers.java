@@ -8,7 +8,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketAddress;
 
-public class ActionsForConsumers extends AsyncTask<String, String, String> {
+public class ActionsForConsumers extends Thread {
     ObjectInputStream in;
     ObjectOutputStream out;
     SocketAddress consumersPort;
@@ -31,7 +31,7 @@ public class ActionsForConsumers extends AsyncTask<String, String, String> {
     }
 
     @Override
-    protected String doInBackground(String... strings) {
+    public void run() {
 
 
         try {
@@ -62,7 +62,6 @@ public class ActionsForConsumers extends AsyncTask<String, String, String> {
             }
         }
 
-    return null;
     }
 }
 

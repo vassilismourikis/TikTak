@@ -12,7 +12,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import static android.os.Environment.getExternalStorageDirectory;
 
-public class Publisher extends AsyncTask<String, String, String> implements Node{
+public class Publisher implements Node{
     private ChannelName channelName;
     private int choice=-1;
     private String channelNameHash;
@@ -103,7 +103,7 @@ public class Publisher extends AsyncTask<String, String, String> implements Node
 
             thread.join(); //waits till ip is available
             PublisherThread t=new PublisherThread(this);
-            t.execute();
+            t.start();
             System.out.println("PUBLISHERS THREAD STARTED");
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -130,44 +130,6 @@ public class Publisher extends AsyncTask<String, String, String> implements Node
         return server;
     }
 
-    @Override
-    protected String doInBackground(String... strings) {
-
-
-        try {
-
-            addHashtag("#FUNNY,#WOW,#yolo,#phososhooting,#interesting");
-                while(true) {
-                if(!lock.isLocked()){
-
-
-                    if (choice == 1) {
-                        addHashtag("#FUNNY,#WOW,#yolo,#swag");
-                        //addHashtag("#FUNNY,#WOW,#yolo");
-                        //addHashtag("#FUNNY,#WOW,#yolo,#phososhooting,#interesting");
-                        choice=-1;
-
-                    } else if (choice == 2) {
-
-                        areActionsDone = false;
-                        deleteVideo();
-
-                        choice=-1;
-                    }else if (choice == 0){
-
-                        disconnect();
-                        break;
-                    }
-                }
-                }
-
-        } catch (UnknownHostException unknownHost) {
-            System.err.println("You are trying to connect to an unknown host!");
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
-        return null;
-    }
     public synchronized void setChoice(int c){
         this.choice=c;
 

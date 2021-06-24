@@ -27,7 +27,7 @@ public class BrokerThread extends AsyncTask<String, String, String> {
 
                 ActionsForBrokers t1 = new ActionsForBrokers(connection,broker);
 
-                t1.execute();
+                t1.start();
                 return null;
             }
             catch (EOFException e){

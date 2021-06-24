@@ -25,14 +25,6 @@ public class Client implements Serializable {
 		publisher= new Publisher(name);
 		consumer= new Consumer(name);
 
-		if(Build.VERSION.SDK_INT >= 11) {
-			publisher.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-			consumer.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-		} else {
-			publisher.execute();
-			consumer.execute();
-		}
-		System.out.println("executed");
 	}
 
 public Publisher getPublisher(){

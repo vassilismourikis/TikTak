@@ -34,6 +34,10 @@ public class ProfileFragment extends Fragment {
         //TODO:GET AVAILABLE CHANNELS
         c.getConsumer().a=true;
         arrayList= c.getConsumer().getAvailableChannelsArray();
+        if(arrayList==null){
+            arrayList=new ArrayList<String>();
+            arrayList.add("NO ENTRIES YET");
+        }
         System.out.println(arrayList);
 
         // Inflate the layout for this fragment

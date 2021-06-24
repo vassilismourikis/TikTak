@@ -30,7 +30,7 @@ public class ConsumerThread extends Thread{
                     ActionsForConsumers t1 = new ActionsForConsumers(connection,c);
 
 
-                    t1.execute();
+                    t1.start();
                 }catch(SocketException e){
                     //System.out.println("publisherThread terminated");
                     break;

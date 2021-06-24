@@ -8,7 +8,7 @@ import java.io.ObjectOutputStream;
 import java.net.*;
 import java.util.ArrayList;
 
-public class ActionsForPublishers extends AsyncTask<String, String, String> {
+public class ActionsForPublishers extends Thread {
     ObjectInputStream in;
     ObjectOutputStream out;
     SocketAddress publishersPort;
@@ -31,7 +31,7 @@ public class ActionsForPublishers extends AsyncTask<String, String, String> {
     }
 
     @Override
-    protected String doInBackground(String... strings) {
+    public void run() {
 
 
         try {
@@ -70,6 +70,5 @@ public class ActionsForPublishers extends AsyncTask<String, String, String> {
             }
         }
 
-    return null;
     }
 }
