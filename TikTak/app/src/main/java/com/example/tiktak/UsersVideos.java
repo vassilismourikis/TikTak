@@ -1,7 +1,6 @@
 package com.example.tiktak;
 
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -15,36 +14,39 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.concurrent.ExecutionException;
+
+import static com.example.tiktak.MainActivity.c;
 
 
 public class UsersVideos extends AppCompatActivity {
 
-    Client c;
-    Map<String,Value> videos;
+
+    ArrayList<String> videos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_users_videos);
 
-        Bundle b = getIntent().getExtras();
-        System.out.println(getIntent());
-
-        c = (Client) b.getParcelable("Client");
-
         // Inflate the layout for this fragment
         final ListView list =findViewById(R.id.list);
         ArrayList<String> arrayList = new ArrayList<>();
 
-        new AsyncTask<Void,Void,Void>(){
+        try {
+            new AsyncTask<Void,Void,Void>(){
 
-            @Override
-            protected Void doInBackground(Void... voids) {
-                videos=c.getPublisher().getVideos();
-                return null;
-            }
-        }.execute();
-
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    videos=c.getPublisher().getChannelsVideos();
+                    return null;
+                }
+            }.execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        arrayList=videos;
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, arrayList);
         list.setAdapter(arrayAdapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {

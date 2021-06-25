@@ -676,19 +676,27 @@ networks_hashes=new ArrayList<String>();
 
     public ArrayList<String> getRelatedVideos(String s,String channelName){
         //ArrayList<String> videokeys=new ArrayList<String>();
-        String hashh="";
-        String hash = MD5.getMd5(s);
-        try {
-            byte[] md5hex = MessageDigest.getInstance("MD5").digest(hash.getBytes());
-            hashh=(new BigInteger(MD5.bytesToHex(md5hex),16).mod(big.get(2))).toString();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        if(hashtag_videokey.get(hashh)!=null){
-            return hashtag_videokey.get(hashh);
 
+        if(s!=null){
+            String hashh="";
+            String hash = MD5.getMd5(s);
+            try {
+                byte[] md5hex = MessageDigest.getInstance("MD5").digest(hash.getBytes());
+                hashh=(new BigInteger(MD5.bytesToHex(md5hex),16).mod(big.get(2))).toString();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+            return hashtag_videokey.get(hashh);
         }
         else {
+            String hashh="";
+            String hash = MD5.getMd5(channelName);
+            try {
+                byte[] md5hex = MessageDigest.getInstance("MD5").digest(hash.getBytes());
+                hashh=(new BigInteger(MD5.bytesToHex(md5hex),16).mod(big.get(2))).toString();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
             return channelName_videokey.get(hashh);
         }
 

@@ -17,9 +17,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
-
+import static com.example.tiktak.MainActivity.c;
 public class SearchFragment extends Fragment {
-    Client c;
+
     ArrayList<String> arrayList;
     Button mButton;
     EditText mEdit;
@@ -30,9 +30,7 @@ public class SearchFragment extends Fragment {
 
         View view =inflater.inflate(R.layout.fragment_search, container, false);
 
-        Intent i = getActivity().getIntent();
 
-       c = (Client) i.getSerializableExtra("Client");
         //TODO:GET AVAILABLE CHANNELS
         try {
             new AsyncTask<Void,Void,Void>(){
@@ -96,10 +94,6 @@ public class SearchFragment extends Fragment {
                                     int position, long id) {
 
                 Intent intent = new Intent(getActivity(), UsersVideos.class);
-                Bundle b=new Bundle();
-                b.putSerializable("Client",c);
-                intent.putExtras(b);
-
                 startActivity(intent);
             }
         }

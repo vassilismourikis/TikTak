@@ -27,7 +27,7 @@ public class Client implements Serializable {
 
 	}
 
-public Publisher getPublisher(){
+	public Publisher getPublisher(){
 		return publisher;
 }
 

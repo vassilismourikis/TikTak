@@ -12,7 +12,7 @@ public class MainActivity extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager viewPager;
     private final int STORAGE_PERMISSION_CODE = 1;
-    Client c;
+    public static Client c;
 
 
     @Override

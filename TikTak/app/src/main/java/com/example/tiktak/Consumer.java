@@ -26,8 +26,7 @@ public class Consumer implements Node{
     private ArrayList<String> networks;
     private ArrayList<String> networks_hashes;
     private ArrayList<BigInteger>  big;
-    public boolean a=true;
-    //public void register(Broker b,String s){}
+
 
     public synchronized ArrayList<String> getSubs(){
         return subs;

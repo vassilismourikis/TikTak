@@ -32,8 +32,86 @@ public class Publisher implements Node{
     private boolean areActionsDone = true;
 
 
-    public Map<String,Value> getVideos(){
-        return videos;
+    public ArrayList<String> getChannelsVideos()  { //3 TO CHECK ALL THE BROKES
+        ArrayList<String> ar;
+        connect(1);
+        try {
+            out.writeObject(new Message(null,null,null, channelName.toString(), null, null, null,5));
+            ar= (ArrayList<String>)in.readObject();
+            if(ar!=null)
+                return ar;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+        connect(2);
+        try {
+            out.writeObject(new Message(null,null,null, channelName.toString(), null, null, null,5));
+            ar= (ArrayList<String>)in.readObject();
+            if(ar!=null)
+                return ar;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+        connect(3);
+        try {
+            out.writeObject(new Message(null,null,null, channelName.toString(), null, null, null,5));
+            ar= (ArrayList<String>)in.readObject();
+            if(ar!=null)
+                return ar;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+        return null;
+    }
+
+    public ArrayList<String> getHashtagsVideos()  {
+        ArrayList<String> ar;
+        connect(1);
+        try {
+            out.writeObject(new Message(null,null,channelName.toString(),null , null, null, null,5));
+            ar= (ArrayList<String>)in.readObject();
+            if(ar!=null)
+            return ar;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+        connect(2);
+        try {
+            out.writeObject(new Message(null,null,channelName.toString(),null , null, null, null,5));
+            ar= (ArrayList<String>)in.readObject();
+            if(ar!=null)
+                return ar;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+        connect(3);
+        try {
+            out.writeObject(new Message(null,null,channelName.toString(),null , null, null, null,5));
+            ar= (ArrayList<String>)in.readObject();
+            if(ar!=null)
+                return ar;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+        return null;
     }
 
     public Publisher(String s){
