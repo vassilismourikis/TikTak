@@ -19,7 +19,7 @@ import java.util.concurrent.ExecutionException;
 import static com.example.tiktak.MainActivity.c;
 
 
-public class UsersVideos extends AppCompatActivity {
+public class UsersVideos extends AppCompatActivity { 
 
 
     ArrayList<String> videos;
@@ -27,6 +27,11 @@ public class UsersVideos extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_users_videos);
+
+        Bundle b = getIntent().getExtras();
+
+
+        String name =  b.getString("Client");
 
         // Inflate the layout for this fragment
         final ListView list =findViewById(R.id.list);
@@ -37,7 +42,7 @@ public class UsersVideos extends AppCompatActivity {
 
                 @Override
                 protected Void doInBackground(Void... voids) {
-                    videos=c.getPublisher().getChannelsVideos();
+                    videos=c.getPublisher().getChannelsVideos(name);
                     return null;
                 }
             }.execute().get();

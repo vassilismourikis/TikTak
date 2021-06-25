@@ -29,11 +29,9 @@ public class MainActivity extends AppCompatActivity {
         c=new Client("Vasilis");
 
 
-        tabLayout = findViewById(R.id.tabBar);
         viewPager = findViewById(R.id.viewPager);
-
+        tabLayout = findViewById(R.id.tabBar);
         tabLayout.setupWithViewPager(viewPager);
-
 
         PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(),
                 FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT );

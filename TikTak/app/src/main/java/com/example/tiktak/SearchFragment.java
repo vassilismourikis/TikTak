@@ -24,6 +24,7 @@ public class SearchFragment extends Fragment {
     Button mButton;
     EditText mEdit;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class SearchFragment extends Fragment {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println(arrayList);
+        System.out.println(arrayList + "SEARCHFRAG");
 
         // Inflate the layout for this fragment
         final ListView list = view.findViewById(R.id.list);
@@ -94,6 +95,7 @@ public class SearchFragment extends Fragment {
                                     int position, long id) {
 
                 Intent intent = new Intent(getActivity(), UsersVideos.class);
+                intent.putExtra("Client", arrayList.get(position));
                 startActivity(intent);
             }
         }

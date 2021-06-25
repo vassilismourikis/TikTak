@@ -2,6 +2,9 @@ package com.example.tiktak;
 import android.media.MediaMetadataRetriever;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+
 import java.io.*;
 import java.math.BigInteger;
 import java.net.*;
@@ -32,11 +35,16 @@ public class Publisher implements Node{
     private boolean areActionsDone = true;
 
 
-    public ArrayList<String> getChannelsVideos()  { //3 TO CHECK ALL THE BROKES
+    @Override
+    public String toString() {
+        return this.channelName.toString();
+    }
+
+    public ArrayList<String> getChannelsVideos(String name)  { //3 TO CHECK ALL THE BROKES
         ArrayList<String> ar;
         connect(1);
         try {
-            out.writeObject(new Message(null,null,null, channelName.toString(), null, null, null,5));
+            out.writeObject(new Message(null,null,null, name, null, null, null,5));
             ar= (ArrayList<String>)in.readObject();
             if(ar!=null)
                 return ar;
@@ -48,7 +56,7 @@ public class Publisher implements Node{
         disconnect();
         connect(2);
         try {
-            out.writeObject(new Message(null,null,null, channelName.toString(), null, null, null,5));
+            out.writeObject(new Message(null,null,null, name, null, null, null,5));
             ar= (ArrayList<String>)in.readObject();
             if(ar!=null)
                 return ar;
@@ -60,7 +68,7 @@ public class Publisher implements Node{
         disconnect();
         connect(3);
         try {
-            out.writeObject(new Message(null,null,null, channelName.toString(), null, null, null,5));
+            out.writeObject(new Message(null,null,null, name, null, null, null,5));
             ar= (ArrayList<String>)in.readObject();
             if(ar!=null)
                 return ar;
@@ -73,11 +81,11 @@ public class Publisher implements Node{
         return null;
     }
 
-    public ArrayList<String> getHashtagsVideos()  {
+    public ArrayList<String> getHashtagsVideos(String name)  {
         ArrayList<String> ar;
         connect(1);
         try {
-            out.writeObject(new Message(null,null,channelName.toString(),null , null, null, null,5));
+            out.writeObject(new Message(null,null,name,null , null, null, null,5));
             ar= (ArrayList<String>)in.readObject();
             if(ar!=null)
             return ar;
@@ -89,7 +97,7 @@ public class Publisher implements Node{
         disconnect();
         connect(2);
         try {
-            out.writeObject(new Message(null,null,channelName.toString(),null , null, null, null,5));
+            out.writeObject(new Message(null,null,name,null , null, null, null,5));
             ar= (ArrayList<String>)in.readObject();
             if(ar!=null)
                 return ar;
@@ -101,7 +109,7 @@ public class Publisher implements Node{
         disconnect();
         connect(3);
         try {
-            out.writeObject(new Message(null,null,channelName.toString(),null , null, null, null,5));
+            out.writeObject(new Message(null,null,name,null , null, null, null,5));
             ar= (ArrayList<String>)in.readObject();
             if(ar!=null)
                 return ar;

@@ -1,6 +1,4 @@
 package com.example.tiktak;
-import android.os.AsyncTask;
-import android.text.method.HideReturnsTransformationMethod;
 
 import java.io.*;
 import java.math.BigInteger;
@@ -8,7 +6,6 @@ import java.net.*;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
-
 import static android.os.Environment.getExternalStorageDirectory;
 
 public class Consumer implements Node{

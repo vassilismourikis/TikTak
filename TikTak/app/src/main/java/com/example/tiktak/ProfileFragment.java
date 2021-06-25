@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+import static com.example.tiktak.MainActivity.c;
+
 public class ProfileFragment extends Fragment {
     Client c;
     ArrayList<String> arrayList;
@@ -40,7 +42,7 @@ public class ProfileFragment extends Fragment {
 
                 @Override
                 protected Void doInBackground(Void... voids) {
-                    arrayList= c.getConsumer().getAvailableChannelsArray();
+                    arrayList= c.getPublisher().getChannelsVideos(c.getPublisher().toString());
                     return null;
                 }
             }.execute().get();
@@ -49,7 +51,7 @@ public class ProfileFragment extends Fragment {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println(arrayList);
+        System.out.println(arrayList +"PROFFRAG");
 
         // Inflate the layout for this fragment
         final ListView list = view.findViewById(R.id.list);

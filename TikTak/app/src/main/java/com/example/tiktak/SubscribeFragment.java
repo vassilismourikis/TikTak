@@ -36,7 +36,7 @@ public class SubscribeFragment extends Fragment {
         c = (Client) i.getSerializableExtra("Client");
         //TODO:GET AVAILABLE CHANNELS
         arrayList= c.getConsumer().getSubs();
-        System.out.println(arrayList);
+        System.out.println(arrayList + "SUBFRAG");
 
         // Inflate the layout for this fragment
         final ListView list = view.findViewById(R.id.list);
