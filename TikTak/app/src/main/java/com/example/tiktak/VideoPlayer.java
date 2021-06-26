@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
+import java.io.File;
+
+import static android.os.Environment.getExternalStorageDirectory;
+
 public class VideoPlayer extends AppCompatActivity {
 
     VideoView videoView;
@@ -19,7 +23,9 @@ public class VideoPlayer extends AppCompatActivity {
 
         mController= new MediaController(this);
 
-        videoView.setVideoPath("");
+        File dir = getExternalStorageDirectory();
+        String path = dir.getAbsolutePath()+"/Android/media/";
+            videoView.setVideoPath(path+"Client"+"Vasilis"+"/Consumer/"+"output.mp4");
 
         mController.setAnchorView(videoView);
 

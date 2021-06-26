@@ -51,7 +51,7 @@ public class ProfileFragment extends Fragment {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println(arrayList +"PROFFRAG");
+        System.out.println(arrayList +"PROFFFFFFFFFFFFFFFFRAG");
 
         // Inflate the layout for this fragment
         final ListView list = view.findViewById(R.id.list);
@@ -111,5 +111,13 @@ public class ProfileFragment extends Fragment {
 
 
         return view;
+    }
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            ProfileFragment fragment = new ProfileFragment();
+            getFragmentManager().beginTransaction().replace(R.id.profile_frag, fragment).commit();
+        }
     }
 }

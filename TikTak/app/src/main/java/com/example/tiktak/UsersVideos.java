@@ -1,6 +1,7 @@
 package com.example.tiktak;
 
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -19,7 +20,7 @@ import java.util.concurrent.ExecutionException;
 import static com.example.tiktak.MainActivity.c;
 
 
-public class UsersVideos extends AppCompatActivity { 
+public class UsersVideos extends AppCompatActivity {
 
 
     ArrayList<String> videos;
@@ -62,11 +63,33 @@ public class UsersVideos extends AppCompatActivity {
             }
         });
 
-        //list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                        @Override
+                                        public void onItemClick(AdapterView<?> parent, View view,
+                                                                int position, long id) {
+                                            try {
+                                                new AsyncTask<Void, Void, Void>() {
 
-                                        //TODO:PLAY THE VIDEO
-                                 //   }
-       // );
+                                                    @Override
+                                                    protected Void doInBackground(Void... voids) {
+                                                        c.getConsumer().pullVideo(videos.get(position));
+                                                        return null;
+                                                    }
+                                                }.execute().get();
+                                            } catch (ExecutionException e) {
+                                                e.printStackTrace();
+                                            } catch (InterruptedException e) {
+                                                e.printStackTrace();
+                                            }
+
+
+
+                                            Intent intent = new Intent(UsersVideos.this, VideoPlayer.class);
+
+                                            startActivity(intent);
+                                        }
+                                    }
+        );
 
         final Button button = findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {

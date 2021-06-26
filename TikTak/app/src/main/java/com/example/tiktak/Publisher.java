@@ -78,7 +78,7 @@ public class Publisher implements Node{
             e.printStackTrace();
         }
         disconnect();
-        return null;
+        return new ArrayList<String>();
     }
 
     public ArrayList<String> getHashtagsVideos(String name)  {
@@ -119,7 +119,7 @@ public class Publisher implements Node{
             e.printStackTrace();
         }
         disconnect();
-        return null;
+        return new ArrayList<String>();
     }
 
     public Publisher(String s){
@@ -179,7 +179,7 @@ public class Publisher implements Node{
                             socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
                             ip[0] = socket.getLocalAddress().getHostAddress();
                             System.out.println("PUBLISHER   "+ ip[0]);
-                            server.bind(new InetSocketAddress(ip[0],0));
+                            server.bind(new InetSocketAddress(ip[0],36997));
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

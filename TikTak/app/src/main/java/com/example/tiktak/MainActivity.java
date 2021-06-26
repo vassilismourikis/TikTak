@@ -28,20 +28,17 @@ public class MainActivity extends AppCompatActivity {
 
         c=new Client("Vasilis");
 
+        PagerAdapter pagerAdapter = new PagerAdapter(this,getSupportFragmentManager());
 
         viewPager = findViewById(R.id.viewPager);
+        viewPager.setAdapter(pagerAdapter);
         tabLayout = findViewById(R.id.tabBar);
         tabLayout.setupWithViewPager(viewPager);
 
-        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(),
-                FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT );
-        pagerAdapter.addFragment(new SearchFragment(),"Search");
-        pagerAdapter.addFragment(new ProfileFragment(),"Profile");
-        pagerAdapter.addFragment(new SubscribeFragment(),"Subscribe");
 
         getIntent().putExtra("Client", c);
 
-        viewPager.setAdapter(pagerAdapter);
+
 
 
 

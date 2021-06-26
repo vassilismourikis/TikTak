@@ -3,9 +3,7 @@ package com.example.tiktak;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +16,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import static com.example.tiktak.MainActivity.c;
+
 public class SearchFragment extends Fragment {
 
     ArrayList<String> arrayList;
@@ -117,6 +116,15 @@ public class SearchFragment extends Fragment {
 
 
         return view;
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            SearchFragment fragment = new SearchFragment();
+            getFragmentManager().beginTransaction().replace(R.id.searchfrag, fragment).commit();
+        }
     }
 
 

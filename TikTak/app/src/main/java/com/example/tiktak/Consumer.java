@@ -136,6 +136,89 @@ if(infos!=null){
         System.out.println(s);
     }
 
+    public  void pullVideo(String key) {
+        if (!lock.isLocked()) {
+            boolean f = false;
+            String ch = key;
+            System.out.println(ch);
+            Iterator<String> it;
+            String current;
+
+
+            f = true;
+            System.out.println("GETTING FROM BROKER1");
+            try {
+                connect(1);
+                out.writeObject(new Message(null, null, ch, null, null, null, null, 6));
+                out.flush();
+                byte[] bytee = (byte[]) in.readObject();
+                File file = new File("Client" + name + "/Consumer/" + "output.mp4");
+                BufferedOutputStream fileOutput = new BufferedOutputStream(new FileOutputStream(file));
+
+                while (bytee != null) {
+                    fileOutput.write(bytee);
+                    bytee = (byte[]) in.readObject();
+                }
+                fileOutput.close();
+                disconnect();
+                System.out.println("video transfered");
+
+                return;
+            } catch (Exception e) {
+            }
+
+
+            f = true;
+            System.out.println("GETTING FROM BROKER2");
+            try {
+                connect(2);
+                out.writeObject(new Message(null, null, ch, null, null, null, null, 6));
+                out.flush();
+                byte[] bytee = (byte[]) in.readObject();
+                File file = new File("Client" + name + "/Consumer/" + "output.mp4");
+                BufferedOutputStream fileOutput = new BufferedOutputStream(new FileOutputStream(file));
+
+                while (bytee != null) {
+                    fileOutput.write(bytee);
+                    bytee = (byte[]) in.readObject();
+                }
+                fileOutput.close();
+                disconnect();
+                System.out.println("video transfered");
+                return;
+            } catch (Exception e) {
+            }
+
+
+            System.out.println("GETTING FROM BROKER3");
+            try {
+                connect(3);
+                out.writeObject(new Message(null, null, ch, null, null, null, null, 6));
+                out.flush();
+                byte[] bytee = (byte[]) in.readObject();
+                File file = new File("Client" + name + "/Consumer/" + "output.mp4");
+                BufferedOutputStream fileOutput = new BufferedOutputStream(new FileOutputStream(file));
+
+                while (bytee != null) {
+                    fileOutput.write(bytee);
+                    bytee = (byte[]) in.readObject();
+                }
+                fileOutput.close();
+                disconnect();
+                System.out.println("video transfered");
+                return;
+            } catch (Exception e) {
+            }
+
+
+            areActionsDone = true;
+            choice = -1;
+            disconnect();
+        }
+    }
+
+
+
     public void SelectHashtag(String HashtagChoice) { //  AKA pull
         if(!lock.isLocked()) {
             boolean f = false;
@@ -353,7 +436,7 @@ if(infos!=null){
                             socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
                             ip[0] = socket.getLocalAddress().getHostAddress();
                             System.out.println("CONSUMER   "+ ip[0]);
-                            s.bind(new InetSocketAddress(ip[0],0));
+                            s.bind(new InetSocketAddress(ip[0],38811));
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

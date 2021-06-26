@@ -92,4 +92,12 @@ public class SubscribeFragment extends Fragment {
 
         return view;
     }
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            SubscribeFragment fragment = new SubscribeFragment();
+            getFragmentManager().beginTransaction().replace(R.id.sub_frag, fragment).commit();
+        }
+    }
 }
