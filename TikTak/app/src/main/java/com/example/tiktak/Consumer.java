@@ -152,7 +152,7 @@ if(infos!=null){
                 out.writeObject(new Message(null, null, ch, null, null, null, null, 6));
                 out.flush();
                 byte[] bytee = (byte[]) in.readObject();
-                File file = new File("Client" + name + "/Consumer/" + "output.mp4");
+                File file = new File(getExternalStorageDirectory().getAbsolutePath()+"/Android/media/"+"Client" + name + "/Consumer/" + "output.mp4");
                 BufferedOutputStream fileOutput = new BufferedOutputStream(new FileOutputStream(file));
 
                 while (bytee != null) {
@@ -175,7 +175,7 @@ if(infos!=null){
                 out.writeObject(new Message(null, null, ch, null, null, null, null, 6));
                 out.flush();
                 byte[] bytee = (byte[]) in.readObject();
-                File file = new File("Client" + name + "/Consumer/" + "output.mp4");
+                File file = new File(getExternalStorageDirectory().getAbsolutePath()+"/Android/media/"+"Client" + name + "/Consumer/" + "output.mp4");
                 BufferedOutputStream fileOutput = new BufferedOutputStream(new FileOutputStream(file));
 
                 while (bytee != null) {
@@ -196,7 +196,7 @@ if(infos!=null){
                 out.writeObject(new Message(null, null, ch, null, null, null, null, 6));
                 out.flush();
                 byte[] bytee = (byte[]) in.readObject();
-                File file = new File("Client" + name + "/Consumer/" + "output.mp4");
+                File file = new File(getExternalStorageDirectory().getAbsolutePath()+"/Android/media/"+"Client" + name + "/Consumer/" + "output.mp4");
                 BufferedOutputStream fileOutput = new BufferedOutputStream(new FileOutputStream(file));
 
                 while (bytee != null) {
@@ -252,7 +252,7 @@ if(infos!=null){
                                 out.writeObject(new Message(null,null,videokeys.get(sc.nextInt()), null,null,null,null, 6));
                                 out.flush();
                                 byte[] bytee=(byte[])in.readObject();
-                                File file = new File("Client"+name+"/Consumer/" +"output.mp4");
+                                File file = new File(getExternalStorageDirectory().getAbsolutePath()+"/Android/media/"+"Client"+name+"/Consumer/" +"output.mp4");
                                 BufferedOutputStream fileOutput = new BufferedOutputStream(new FileOutputStream(file));
 
                                 while(bytee!=null){
@@ -299,7 +299,7 @@ if(infos!=null){
                             out.writeObject(new Message(null,null,videokeys.get(sc.nextInt()), null,null,null,null, 6));
                             out.flush();
                             byte[] bytee=(byte[])in.readObject();
-                            File file = new File("Client"+name+"/Consumer/" +"output.mp4");
+                            File file = new File(getExternalStorageDirectory().getAbsolutePath()+"/Android/media/"+"Client"+name+"/Consumer/" +"output.mp4");
                             BufferedOutputStream fileOutput = new BufferedOutputStream(new FileOutputStream(file));
 
                             while(bytee!=null){
@@ -352,7 +352,7 @@ if(infos!=null){
                                 out.writeObject(new Message(null,null,videokeys.get(sc.nextInt()), null,null,null,null, 6));
                                 out.flush();
                                 byte[] bytee=(byte[])in.readObject();
-                                File file = new File("Client"+name+"/Consumer/" +"output.mp4");
+                                File file = new File(getExternalStorageDirectory().getAbsolutePath()+"/Android/media/"+"Client"+name+"/Consumer/" +"output.mp4");
                                 BufferedOutputStream fileOutput = new BufferedOutputStream(new FileOutputStream(file));
 
                                 while(bytee!=null){
