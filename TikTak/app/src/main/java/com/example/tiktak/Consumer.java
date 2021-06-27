@@ -145,9 +145,10 @@ if(infos!=null){
             String current;
 
 
-            f = true;
+            f = false;
             System.out.println("GETTING FROM BROKER1");
             try {
+
                 connect(1);
                 out.writeObject(new Message(null, null, ch, null, null, null, null, 6));
                 out.flush();
@@ -156,6 +157,7 @@ if(infos!=null){
                 BufferedOutputStream fileOutput = new BufferedOutputStream(new FileOutputStream(file));
 
                 while (bytee != null) {
+                    f=true;
                     fileOutput.write(bytee);
                     bytee = (byte[]) in.readObject();
                 }
@@ -163,12 +165,13 @@ if(infos!=null){
                 disconnect();
                 System.out.println("video transfered");
 
-                return;
+                if(f) return;
+
             } catch (Exception e) {
             }
 
 
-            f = true;
+            f = false;
             System.out.println("GETTING FROM BROKER2");
             try {
                 connect(2);
@@ -179,17 +182,18 @@ if(infos!=null){
                 BufferedOutputStream fileOutput = new BufferedOutputStream(new FileOutputStream(file));
 
                 while (bytee != null) {
+                    f=true;
                     fileOutput.write(bytee);
                     bytee = (byte[]) in.readObject();
                 }
                 fileOutput.close();
                 disconnect();
                 System.out.println("video transfered");
-                return;
+                if(f) return;
             } catch (Exception e) {
             }
 
-
+            f = false;
             System.out.println("GETTING FROM BROKER3");
             try {
                 connect(3);
@@ -200,13 +204,14 @@ if(infos!=null){
                 BufferedOutputStream fileOutput = new BufferedOutputStream(new FileOutputStream(file));
 
                 while (bytee != null) {
+                    f=true;
                     fileOutput.write(bytee);
                     bytee = (byte[]) in.readObject();
                 }
                 fileOutput.close();
                 disconnect();
                 System.out.println("video transfered");
-                return;
+                if(f) return;
             } catch (Exception e) {
             }
 
