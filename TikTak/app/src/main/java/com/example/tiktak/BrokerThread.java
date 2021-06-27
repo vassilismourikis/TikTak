@@ -1,13 +1,11 @@
 package com.example.tiktak;
 
-import android.os.AsyncTask;
-
 import java.io.EOFException;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class BrokerThread extends AsyncTask<String, String, String> {
+public class BrokerThread extends Thread {
     private Socket connection;
     private ServerSocket providerSocket;
     private BrokerNode broker;
@@ -19,7 +17,7 @@ public class BrokerThread extends AsyncTask<String, String, String> {
     }
 
     @Override
-    protected String doInBackground(String... strings) {
+    public void run() {
         while(true){
             try {
                 //waiting for client
@@ -28,7 +26,7 @@ public class BrokerThread extends AsyncTask<String, String, String> {
                 ActionsForBrokers t1 = new ActionsForBrokers(connection,broker);
 
                 t1.start();
-                return null;
+
             }
             catch (EOFException e){
                 System.out.println(e);

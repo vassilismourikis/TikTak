@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                 STORAGE_PERMISSION_CODE);
 
-        c=new Client("Vasilis");
+        c=new Client("Vasilis2");
 
         PagerAdapter pagerAdapter = new PagerAdapter(this,getSupportFragmentManager());
 
