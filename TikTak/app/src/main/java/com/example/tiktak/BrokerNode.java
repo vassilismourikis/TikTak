@@ -11,7 +11,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 
-public class BrokerNode implements Broker {
+
+public class BrokerNode implements Broker{
     private List<ConsumerInfo> registeredUsers=new LinkedList<ConsumerInfo>();
     private List<PublisherInfo> registeredPublishers=new LinkedList<PublisherInfo>();
     private TreeSet<String> hashtags=new TreeSet<String>(); //treeset for no duplicates
@@ -36,8 +37,8 @@ public class BrokerNode implements Broker {
 
 
     public BrokerNode(int number,int port){
-        networks=new ArrayList<String>();
-        networks_hashes=new ArrayList<String>();
+networks=new ArrayList<String>();
+networks_hashes=new ArrayList<String>();
         try {
             File myObj = new File("broker.txt");
             Scanner myReader = new Scanner(myObj);
@@ -105,7 +106,6 @@ public class BrokerNode implements Broker {
         return channelnames.contains(s);
     }
 
-
     public static  void main(String args[]){
 
         Socket connection;
@@ -116,16 +116,17 @@ public class BrokerNode implements Broker {
         //broker=new BrokerNode(3,64289);//Broker 3
 
 
-        Thread t = new BrokerThread(broker);
+        BrokerThread t = new BrokerThread(broker);
 
-        t.start();
+
+        t.execute();
 
         while(true){
             try {
                 //waiting for client
                 connection = broker.getSocket().accept();
                 //Πολυνημάτωση: Για κάθε πελάτη, ξεκίνα νέο νήμα, και συνέχισε να δέχεσαι αιτήσεις
-                Thread t1 = new ActionsForClients(connection,broker);
+                ActionsForClients t1 = new ActionsForClients(connection,broker);
                 //με την start ξεκινάει το νέο νήμα
                 // και εκτελείται η .run μέθοδος
                 // Το νέο νήμα παίρνει σαν είσοδο στον constructor του
@@ -175,7 +176,7 @@ public class BrokerNode implements Broker {
                 if(ar.get(j).equals(key))ar.remove(j);
             }
             if(firstKey.equals(key)) {
-                channelName_videokey.put(firstKey,ar);
+                 channelName_videokey.put(firstKey,ar);
             }
         }
 
@@ -212,7 +213,7 @@ public class BrokerNode implements Broker {
 
     }
 
-    public void updateBrokersData(Container c,String port){
+    public void updateBrokersData(Container c, String port){
         //System.out.println("port:            "+ port);
         if(port.equals("64287")){
             //System.out.println("saved to 0 ");
@@ -256,7 +257,7 @@ public class BrokerNode implements Broker {
                 }
                 hashtags.add(m.getA1());
                 brokersData[2]=new Container(hashtags,channelnames,port);
-                Thread t= new Refresher(brokersData[2],broker);
+                Refresher t= new Refresher(brokersData[2],broker);
                 t.start();
                 //System.out.println("saved at broker with port: " + "                     " + privateSocket.getLocalPort() + "!!!!!!!!!!!!!!!!!!!");
                 //NOTIFY THE REGISTERED UDERS------------------------------------------------------------------------------------------------------------------------
@@ -299,7 +300,7 @@ public class BrokerNode implements Broker {
                 }
                 hashtags.add(m.getA1());
                 brokersData[1]=new Container(hashtags,channelnames,port);
-                Thread t= new Refresher(brokersData[1],broker);
+                Refresher t= new Refresher(brokersData[1],broker);
                 t.start();
                 //System.out.println("saved at broker with port: " + "                     " + privateSocket.getLocalPort() + "!!!!!!!!!!!!!!!!!!!");
                 //NOTIFY THE REGISTERED UDERS------------------------------------------------------------------------------------------------------------------------
@@ -343,7 +344,7 @@ public class BrokerNode implements Broker {
                 }
                 hashtags.add(m.getA1());
                 brokersData[0]=new Container(hashtags,channelnames,port);
-                Thread t= new Refresher(brokersData[0],broker);
+                Refresher t= new Refresher(brokersData[0],broker);
                 t.start();
                 //System.out.println("saved at broker with port: " + "                     " + privateSocket.getLocalPort() + "!!!!!!!!!!!!!!!!!!!");
                 //NOTIFY THE REGISTERED UDERS------------------------------------------------------------------------------------------------------------------------
@@ -414,7 +415,7 @@ public class BrokerNode implements Broker {
                 }
                 channelnames.add(m.getA1());
                 brokersData[2]=new Container(hashtags,channelnames,port);
-                Thread t= new Refresher(brokersData[2],broker);
+                Refresher t= new Refresher(brokersData[2],broker);
                 t.start();
                 //System.out.println("saved at broker with port: " + "                     " + privateSocket.getLocalPort() + "!!!!!!!!!!!!!!!!!!!");
                 //NOTIFY THE REGISTERED UDERS------------------------------------------------------------------------------------------------------------------------
@@ -457,7 +458,7 @@ public class BrokerNode implements Broker {
                 }
                 channelnames.add(m.getA1());
                 brokersData[1]=new Container(hashtags,channelnames,port);
-                Thread t= new Refresher(brokersData[1],broker);
+                Refresher t= new Refresher(brokersData[1],broker);
                 t.start();
                 //System.out.println("saved at broker with port: " + "                     " + privateSocket.getLocalPort() + "!!!!!!!!!!!!!!!!!!!");
                 //NOTIFY THE REGISTERED UDERS------------------------------------------------------------------------------------------------------------------------
@@ -501,7 +502,7 @@ public class BrokerNode implements Broker {
                 }
                 channelnames.add(m.getA1());
                 brokersData[0]=new Container(hashtags,channelnames,port);
-                Thread t= new Refresher(brokersData[0],broker);
+                Refresher t= new Refresher(brokersData[0],broker);
                 t.start();
                 //System.out.println("saved at broker with port: " + "                     " + privateSocket.getLocalPort() + "!!!!!!!!!!!!!!!!!!!");
                 //NOTIFY THE REGISTERED UDERS------------------------------------------------------------------------------------------------------------------------
@@ -586,7 +587,7 @@ public class BrokerNode implements Broker {
 
 
     public void connect(){ //connectswith the other brokers
-        // System.out.println("MY PORTTTTTTTTT "+privateSocket.getLocalPort());
+       // System.out.println("MY PORTTTTTTTTT "+privateSocket.getLocalPort());
         if(brokerToConnect.equals(big.get(0).toString()))
         {
             try{
@@ -715,34 +716,34 @@ public class BrokerNode implements Broker {
         ObjectInputStream in = null;
         Socket pubConnect = null;
         try {
-            for (int i = 0; i < registeredPublishers.size(); i++) {
-                if (registeredPublishers.get(i).getVideos().get(videokey) != null){ //for not to search on every publisher for video thjat does not exissts !!!!
-                    if (registeredPublishers.get(i).getVideos().get(videokey).getVideo().getVideokey().equals(videokey)) {
+        for (int i = 0; i < registeredPublishers.size(); i++) {
+            if (registeredPublishers.get(i).getVideos().get(videokey) != null){ //for not to search on every publisher for video thjat does not exissts !!!!
+                if (registeredPublishers.get(i).getVideos().get(videokey).getVideo().getVideokey().equals(videokey)) {
 
 
-                        pubConnect = new Socket(registeredPublishers.get(i).getAddress(), registeredPublishers.get(i).getPort());
+                    pubConnect = new Socket(String.valueOf(registeredPublishers.get(i).getAddress()), registeredPublishers.get(i).getPort());
 
-                        out = new ObjectOutputStream(pubConnect.getOutputStream());
-                        //out: για γράψιμο στον πελάτη
+                    out = new ObjectOutputStream(pubConnect.getOutputStream());
+                    //out: για γράψιμο στον πελάτη
 
-                        in = new ObjectInputStream(pubConnect.getInputStream());
+                    in = new ObjectInputStream(pubConnect.getInputStream());
 
-                        out.writeObject(new Message(null,null, videokey, this.ip, String.valueOf(this.port), String.valueOf(u), null, -1));
-                        out.flush();
+                    out.writeObject(new Message(null,null, videokey, this.ip, String.valueOf(this.port), String.valueOf(u), null, -1));
+                    out.flush();
 
 
-                        try {
+                    try {
 
-                            b = (byte[]) in.readObject();
-                            System.out.println(registeredPublishers.size() + "    " + i);
-                            return b;
+                        b = (byte[]) in.readObject();
+                        System.out.println(registeredPublishers.size() + "    " + i);
+                        return b;
 
-                        } catch (ClassNotFoundException e) {
-                            e.printStackTrace();
-                        }
-
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
                     }
+
                 }
+        }
             }
 
         } catch (UnknownHostException e) {
