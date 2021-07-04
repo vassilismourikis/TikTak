@@ -34,8 +34,6 @@ public class UsersVideos extends AppCompatActivity {
 
         String name =  b.getString("Client");
 
-
-
         // Inflate the layout for this fragment
         final ListView list =findViewById(R.id.list);
         ArrayList<String> arrayList = new ArrayList<>();
@@ -87,7 +85,6 @@ public class UsersVideos extends AppCompatActivity {
 
 
                                             Intent intent = new Intent(UsersVideos.this, VideoPlayer.class);
-
 
                                             startActivity(intent);
                                         }

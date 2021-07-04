@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.MediaController;
 import android.widget.VideoView;
-import static com.example.tiktak.MainActivity.c;
 
 import java.io.File;
 
@@ -26,7 +25,7 @@ public class VideoPlayer extends AppCompatActivity {
 
         File dir = getExternalStorageDirectory();
         String path = dir.getAbsolutePath()+"/Android/media/";
-            videoView.setVideoPath(path+"Client"+c.getPublisher().toString()+"/Consumer/"+"output.mp4");
+            videoView.setVideoPath(path+"Client"+"Vasilis"+"/Consumer/"+"output.mp4");
 
         mController.setAnchorView(videoView);
 
