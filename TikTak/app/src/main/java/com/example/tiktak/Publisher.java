@@ -423,7 +423,7 @@ public class Publisher implements Node{
     public MediaMetadataRetriever readMetaData() {
         File dir = getExternalStorageDirectory();
         String path = dir.getAbsolutePath();
-        File  file = new File(path,"/Android/media/"+"Client"+"Vasilis"+"/Publisher/minivideo.mp4");
+        File  file = new File(path,"/Android/media/"+"Client"+channelName+"/Publisher/minivideo.mp4");
 
         if (file.exists()) {
             Log.d("TAG", ".mp4 file Exist");
