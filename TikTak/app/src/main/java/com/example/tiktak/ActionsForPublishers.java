@@ -1,5 +1,7 @@
 package com.example.tiktak;
 
+import android.os.AsyncTask;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -28,6 +30,7 @@ public class ActionsForPublishers extends Thread {
         }
     }
 
+    @Override
     public void run() {
 
 
@@ -66,7 +69,6 @@ public class ActionsForPublishers extends Thread {
                 ioException.printStackTrace();
             }
         }
-
 
     }
 }

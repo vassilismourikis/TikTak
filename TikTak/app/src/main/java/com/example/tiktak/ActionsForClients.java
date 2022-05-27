@@ -1,5 +1,7 @@
 package com.example.tiktak;
 
+import android.os.AsyncTask;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -25,6 +27,7 @@ public class ActionsForClients extends Thread {
 		}
 	}
 
+	@Override
 	public void run() {
 
 
@@ -69,6 +72,11 @@ public class ActionsForClients extends Thread {
 			else if(abMessage.getC()==7) {
 				broker.updateVideos(abMessage.getPublisher(),abMessage.getA());
 			}
+			else if(abMessage.getC()==20) {
+				out.writeObject(broker.isChannelName(a));
+				out.flush();
+			}
+
 
 
 
@@ -85,5 +93,6 @@ public class ActionsForClients extends Thread {
 				ioException.printStackTrace();
 			}
 		}
+
 	}
 }

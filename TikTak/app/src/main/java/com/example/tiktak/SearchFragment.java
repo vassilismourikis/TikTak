@@ -1,26 +1,27 @@
 package com.example.tiktak;
 
-import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+import static com.example.tiktak.MainActivity.c;
 
 public class SearchFragment extends Fragment {
 
-
+    ArrayList<String> arrayList;
+    Button mButton;
+    EditText mEdit;
 
 
     @Override
@@ -29,20 +30,59 @@ public class SearchFragment extends Fragment {
 
         View view =inflater.inflate(R.layout.fragment_search, container, false);
 
+
+        //TODO:GET AVAILABLE CHANNELS
+        try {
+            new AsyncTask<Void,Void,Void>(){
+
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    arrayList= c.getConsumer().getAvailableChannelsArray();
+                    return null;
+                }
+            }.execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(arrayList + "SEARCHFRAG");
+
         // Inflate the layout for this fragment
         final ListView list = view.findViewById(R.id.list);
-        ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add("JAVA");
-        arrayList.add("ANDROID");
-        arrayList.add("C Language");
-        arrayList.add("CPP Language");
-        arrayList.add("Go Language");
-        arrayList.add("AVN SYSTEMS");
+
+
+
+
+        mButton = (Button)view.findViewById(R.id.search);
+
+        mButton.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View inView) {
+                mEdit = (EditText)view.findViewById(R.id.search_text);
+                String hashtag=mEdit.getText().toString();
+                new AsyncTask<Void,Void,Void>(){
+
+                    @Override
+                    protected Void doInBackground(Void... voids) {
+                        c.getConsumer().SelectHashtag(hashtag);
+                        return null;
+                    }
+                }.execute();
+
+
+            }
+        });
+
+
+
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this.getContext(),android.R.layout.simple_list_item_1, arrayList);
         list.setAdapter(arrayAdapter);
+
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 String clickedItem=(String) list.getItemAtPosition(position);
                 Toast.makeText(SearchFragment.this.getContext(),clickedItem, Toast.LENGTH_SHORT).show();
             }
@@ -54,13 +94,38 @@ public class SearchFragment extends Fragment {
                                     int position, long id) {
 
                 Intent intent = new Intent(getActivity(), UsersVideos.class);
-
+                intent.putExtra("Client", arrayList.get(position));
                 startActivity(intent);
             }
         }
     );
 
+
+
+        final Button refresh = (Button)view.findViewById(R.id.refresh);
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SearchFragment fragment = new SearchFragment();
+                getFragmentManager().beginTransaction().replace(R.id.searchfrag, fragment).commit();
+            }
+        });
+
+
+
+
+
         return view;
     }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            SearchFragment fragment = new SearchFragment();
+            getFragmentManager().beginTransaction().replace(R.id.searchfrag, fragment).commit();
+        }
+    }
+
 
 }

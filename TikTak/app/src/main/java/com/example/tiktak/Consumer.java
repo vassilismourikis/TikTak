@@ -1,14 +1,14 @@
 package com.example.tiktak;
 
-
 import java.io.*;
 import java.math.BigInteger;
 import java.net.*;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
+import static android.os.Environment.getExternalStorageDirectory;
 
-public class Consumer extends Thread implements Node{
+public class Consumer implements Node{
     private int choice=-1;
     Socket requestSocket;
     ObjectOutputStream out;
@@ -23,7 +23,16 @@ public class Consumer extends Thread implements Node{
     private ArrayList<String> networks;
     private ArrayList<String> networks_hashes;
     private ArrayList<BigInteger>  big;
-    //public void register(Broker b,String s){}
+
+
+    public synchronized ArrayList<String> getSubs(){
+        return subs;
+    }
+
+    public synchronized ArrayList<String> getAvailableChannelsArray(){
+        return getAvailableChannels();
+
+    }
 
     public String getConsumerName(){
         return name;
@@ -39,46 +48,181 @@ public class Consumer extends Thread implements Node{
         areActionsDone = b;
     }
 
-
     public void disconnect(Broker b,String s){}
 
     public void playData(String s,Value v){}
 
-    @Override
-    public void run() {
 
-        while (true) {
-            if (!lock.isLocked()) {
-                if (choice == 4) {
-                    System.out.println("CONSUMER");
-                    choice = -1;
-                } else if (choice == 5) {
+    public synchronized ArrayList<String> getAvailableChannels() {
+        connect();
+        disconnect();
+        System.out.println(infos);
+        Iterator<String> it;
+        boolean b=false;
+        String current = null;
+        ArrayList<String> ret = new ArrayList<String>();
+if(infos!=null){
+        if(infos.getInfos1()!=null) {
+            it = infos.getInfos1().iterator();
 
-                    areActionsDone = false;
-                    connect();
-                    System.out.println("OUT OF CONNECT");
-                    if (infos != null) {
-                        System.out.println(infos);
-                    }
-                    else System.out.println("no entries yet");
 
-                    choice = -1;
-                } else if (choice == 6) {
-                    areActionsDone = false;
-                    choice = -1;
-                    //subscribe
-                }else if (choice == 0) {
-                    disconnect();
-                    areActionsDone = true;
-                    break;
+            while (it.hasNext()) {
+
+                current = it.next();
+                connect(1);
+                try {
+                    out.writeObject(new Message(null, null, current, null, null, null, null, 20));
+                    out.flush();
+                    b = (Boolean)in.readObject();
+                    System.out.println(b + "1");
                 }
+                //TODO: MAYBE A CATCH FOR EOFException
+                catch (Exception e){
+                    System.out.println("error at availablechannels on consumer 1" + e);
+                }
+                if (b) ret.add(current);
+                disconnect();
+            }
+
+        }
+        if(infos.getInfos2()!=null) {
+            it = infos.getInfos2().iterator();
+
+
+            while (it.hasNext()) {
+
+                current = it.next();
+                connect(2);
+                try {
+                    out.writeObject(new Message(null, null, current, null, null, null, null, 20));
+                    out.flush();
+                    b = (Boolean)in.readObject();
+                    System.out.println(b+ "2");
+                }
+                catch (Exception e){
+                    System.out.println("error at availablechannels on consumer 2"+ e);
+                }
+                if (b) ret.add(current);
+                disconnect();
+            }
+
+        }
+        if(infos.getInfos3()!=null) {
+            it = infos.getInfos3().iterator();
+
+
+            while (it.hasNext()) {
+
+                current = it.next();
+                connect(3);
+                try {
+                    out.writeObject(new Message(null, null, current, null, null, null, null, 20));
+                    out.flush();
+                    b = (Boolean) in.readObject();
+                    System.out.println(b + "3");
+                } catch (Exception e) {
+                    System.out.println("error at availablechannels on consumer 3" + e);
+                }
+                if (b) ret.add(current);
+                disconnect();
             }
         }
+
+        }
+        return  ret;
     }
 
     public void print(String s){
         System.out.println(s);
     }
+
+    public  void pullVideo(String key) {
+        if (!lock.isLocked()) {
+            boolean f = false;
+            String ch = key;
+            System.out.println(ch);
+            Iterator<String> it;
+            String current;
+
+
+            f = false;
+            System.out.println("GETTING FROM BROKER1");
+            try {
+
+                connect(1);
+                out.writeObject(new Message(null, null, ch, null, null, null, null, 6));
+                out.flush();
+                byte[] bytee = (byte[]) in.readObject();
+                File file = new File(getExternalStorageDirectory().getAbsolutePath()+"/Android/media/"+"Client" + name + "/Consumer/" + "output.mp4");
+                BufferedOutputStream fileOutput = new BufferedOutputStream(new FileOutputStream(file));
+
+                while (bytee != null) {
+                    f=true;
+                    fileOutput.write(bytee);
+                    bytee = (byte[]) in.readObject();
+                }
+                fileOutput.close();
+                disconnect();
+                System.out.println("video transfered");
+
+                if(f) return;
+
+            } catch (Exception e) {
+            }
+
+
+            f = false;
+            System.out.println("GETTING FROM BROKER2");
+            try {
+                connect(2);
+                out.writeObject(new Message(null, null, ch, null, null, null, null, 6));
+                out.flush();
+                byte[] bytee = (byte[]) in.readObject();
+                File file = new File(getExternalStorageDirectory().getAbsolutePath()+"/Android/media/"+"Client" + name + "/Consumer/" + "output.mp4");
+                BufferedOutputStream fileOutput = new BufferedOutputStream(new FileOutputStream(file));
+
+                while (bytee != null) {
+                    f=true;
+                    fileOutput.write(bytee);
+                    bytee = (byte[]) in.readObject();
+                }
+                fileOutput.close();
+                disconnect();
+                System.out.println("video transfered");
+                if(f) return;
+            } catch (Exception e) {
+            }
+
+            f = false;
+            System.out.println("GETTING FROM BROKER3");
+            try {
+                connect(3);
+                out.writeObject(new Message(null, null, ch, null, null, null, null, 6));
+                out.flush();
+                byte[] bytee = (byte[]) in.readObject();
+                File file = new File(getExternalStorageDirectory().getAbsolutePath()+"/Android/media/"+"Client" + name + "/Consumer/" + "output.mp4");
+                BufferedOutputStream fileOutput = new BufferedOutputStream(new FileOutputStream(file));
+
+                while (bytee != null) {
+                    f=true;
+                    fileOutput.write(bytee);
+                    bytee = (byte[]) in.readObject();
+                }
+                fileOutput.close();
+                disconnect();
+                System.out.println("video transfered");
+                if(f) return;
+            } catch (Exception e) {
+            }
+
+
+            areActionsDone = true;
+            choice = -1;
+            disconnect();
+        }
+    }
+
+
 
     public void SelectHashtag(String HashtagChoice) { //  AKA pull
         if(!lock.isLocked()) {
@@ -113,7 +257,7 @@ public class Consumer extends Thread implements Node{
                                 out.writeObject(new Message(null,null,videokeys.get(sc.nextInt()), null,null,null,null, 6));
                                 out.flush();
                                 byte[] bytee=(byte[])in.readObject();
-                                File file = new File("Client"+name+"/Consumer/" +"output.mp4");
+                                File file = new File(getExternalStorageDirectory().getAbsolutePath()+"/Android/media/"+"Client"+name+"/Consumer/" +"output.mp4");
                                 BufferedOutputStream fileOutput = new BufferedOutputStream(new FileOutputStream(file));
 
                                 while(bytee!=null){
@@ -160,7 +304,7 @@ public class Consumer extends Thread implements Node{
                             out.writeObject(new Message(null,null,videokeys.get(sc.nextInt()), null,null,null,null, 6));
                             out.flush();
                             byte[] bytee=(byte[])in.readObject();
-                            File file = new File("Client"+name+"/Consumer/" +"output.mp4");
+                            File file = new File(getExternalStorageDirectory().getAbsolutePath()+"/Android/media/"+"Client"+name+"/Consumer/" +"output.mp4");
                             BufferedOutputStream fileOutput = new BufferedOutputStream(new FileOutputStream(file));
 
                             while(bytee!=null){
@@ -213,7 +357,7 @@ public class Consumer extends Thread implements Node{
                                 out.writeObject(new Message(null,null,videokeys.get(sc.nextInt()), null,null,null,null, 6));
                                 out.flush();
                                 byte[] bytee=(byte[])in.readObject();
-                                File file = new File("Client"+name+"/Consumer/" +"output.mp4");
+                                File file = new File(getExternalStorageDirectory().getAbsolutePath()+"/Android/media/"+"Client"+name+"/Consumer/" +"output.mp4");
                                 BufferedOutputStream fileOutput = new BufferedOutputStream(new FileOutputStream(file));
 
                                 while(bytee!=null){
@@ -257,7 +401,7 @@ public class Consumer extends Thread implements Node{
         networks=new ArrayList<String>();
         networks_hashes=new ArrayList<String>();
         try {
-            File myObj = new File("broker.txt");
+            File myObj = new File(getExternalStorageDirectory().getAbsolutePath()+"/Android/media/"+"Client"+ name + "/broker.txt");
             Scanner myReader = new Scanner(myObj);
             int counter=0;
             while (myReader.hasNextLine()) {
@@ -268,8 +412,8 @@ public class Consumer extends Thread implements Node{
                 if(counter==1|| counter==4 || counter==7){
                     networks_hashes.add(data);
                 }
-                System.out.println(networks);
-                System.out.println(networks_hashes);
+                //System.out.println(networks);
+                //System.out.println(networks_hashes);
                 counter++;
             }
             myReader.close();
@@ -282,19 +426,33 @@ public class Consumer extends Thread implements Node{
         big.add(new BigInteger(networks_hashes.get(1)));
         big.add(new BigInteger(networks_hashes.get(2)));
         Collections.sort(big);
-        System.out.println(big);
+        //System.out.println(big);
 
         try {
             s=new ServerSocket();
 
-            String ip="";
-            try(final DatagramSocket socket = new DatagramSocket()){
-                socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
-                ip = socket.getLocalAddress().getHostAddress();
-            }
-            System.out.println("CONSUMER   "+ ip);
-            s.bind(new InetSocketAddress(ip,0));
-        } catch (IOException e) {
+            final String[] ip = {""};
+            Thread thread = new Thread(new Runnable() {
+
+                @Override
+                public void run() {
+                    try  {
+                        try(final DatagramSocket socket = new DatagramSocket()){
+                            socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
+                            ip[0] = socket.getLocalAddress().getHostAddress();
+                            System.out.println("CONSUMER   "+ ip[0]);
+                            s.bind(new InetSocketAddress(ip[0],38811));
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            thread.start();
+
+            thread.join(); //waits till ip is available
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
 

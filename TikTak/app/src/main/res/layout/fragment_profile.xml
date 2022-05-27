@@ -1,17 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/profile_frag"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ProfileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/profileFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/Profile_fragment"
-        android:textSize="20sp" />
+    <Button
+        android:id="@+id/upload"
+        android:layout_width="141dp"
+        android:layout_height="83dp"
+        android:layout_below="@+id/list"
+        android:layout_alignBottom="@+id/list"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="134dp"
+        android:layout_marginTop="63dp"
+        android:layout_marginEnd="135dp"
+        android:layout_marginBottom="-145dp"
+        android:text="upload" />
 
-</FrameLayout>
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="464dp">
+
+    </ListView>
+</RelativeLayout>

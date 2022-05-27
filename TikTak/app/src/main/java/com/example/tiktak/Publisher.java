@@ -1,10 +1,9 @@
 package com.example.tiktak;
-
 import android.media.MediaMetadataRetriever;
+import android.os.AsyncTask;
 import android.util.Log;
 
-
-import org.xml.sax.SAXException;
+import androidx.annotation.NonNull;
 
 import java.io.*;
 import java.math.BigInteger;
@@ -16,7 +15,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import static android.os.Environment.getExternalStorageDirectory;
 
-public class Publisher extends Thread implements Node{
+public class Publisher implements Node{
     private ChannelName channelName;
     private int choice=-1;
     private String channelNameHash;
@@ -35,11 +34,101 @@ public class Publisher extends Thread implements Node{
     private ArrayList<BigInteger>  big;
     private boolean areActionsDone = true;
 
+
+    @Override
+    public String toString() {
+        return this.channelName.toString();
+    }
+
+    public ArrayList<String> getChannelsVideos(String name)  { //3 TO CHECK ALL THE BROKES
+        ArrayList<String> ar;
+        connect(1);
+        try {
+            out.writeObject(new Message(null,null,null, name, null, null, null,5));
+            ar= (ArrayList<String>)in.readObject();
+            if(ar!=null)
+                return ar;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+        connect(2);
+        try {
+            out.writeObject(new Message(null,null,null, name, null, null, null,5));
+            ar= (ArrayList<String>)in.readObject();
+            if(ar!=null)
+                return ar;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+        connect(3);
+        try {
+            out.writeObject(new Message(null,null,null, name, null, null, null,5));
+            ar= (ArrayList<String>)in.readObject();
+            if(ar!=null)
+                return ar;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+        return new ArrayList<String>();
+    }
+
+    public ArrayList<String> getHashtagsVideos(String name)  {
+        ArrayList<String> ar;
+        connect(1);
+        try {
+            out.writeObject(new Message(null,null,name,null , null, null, null,5));
+            ar= (ArrayList<String>)in.readObject();
+            if(ar!=null)
+            return ar;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+        connect(2);
+        try {
+            out.writeObject(new Message(null,null,name,null , null, null, null,5));
+            ar= (ArrayList<String>)in.readObject();
+            if(ar!=null)
+                return ar;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+        connect(3);
+        try {
+            out.writeObject(new Message(null,null,name,null , null, null, null,5));
+            ar= (ArrayList<String>)in.readObject();
+            if(ar!=null)
+                return ar;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+        return new ArrayList<String>();
+    }
+
     public Publisher(String s){
+        this.channelName=new ChannelName(s);
         networks=new ArrayList<String>();
         networks_hashes=new ArrayList<String>();
+
         try {
-            File myObj = new File("broker.txt");
+            File myObj = new File(getExternalStorageDirectory().getAbsolutePath()+"/Android/media/"+"Client"+channelName.toString() + "/broker.txt");
             Scanner myReader = new Scanner(myObj);
             int counter=0;
             while (myReader.hasNextLine()) {
@@ -50,8 +139,8 @@ public class Publisher extends Thread implements Node{
                 if(counter==1|| counter==4 || counter==7){
                     networks_hashes.add(data);
                 }
-                System.out.println(networks);
-                System.out.println(networks_hashes);
+                //System.out.println(networks);
+                //System.out.println(networks_hashes);
                 counter++;
             }
             myReader.close();
@@ -64,11 +153,11 @@ public class Publisher extends Thread implements Node{
         big.add(new BigInteger(networks_hashes.get(1)));
         big.add(new BigInteger(networks_hashes.get(2)));
         Collections.sort(big);
-        System.out.println(big);
+        //System.out.println(big);
 
 
 
-        this.channelName=new ChannelName(s);
+
         String hashh="";
         String hash =MD5.getMd5(channelName.toString());
         try {
@@ -80,17 +169,31 @@ public class Publisher extends Thread implements Node{
         try {
             this.server=new ServerSocket();
             //server.bind(new InetSocketAddress(InetAddress.getLocalHost().getHostAddress(),0));
-            String ip="";
-            try(final DatagramSocket socket = new DatagramSocket()){
-                socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
-                ip = socket.getLocalAddress().getHostAddress();
-            }
-            System.out.println("PUBLISHER   "+ ip);
-            server.bind(new InetSocketAddress(ip,0));
-            Thread t=new PublisherThread(this);
+            final String[] ip = {""};
+            Thread thread = new Thread(new Runnable() {
+
+                @Override
+                public void run() {
+                    try  {
+                        try(final DatagramSocket socket = new DatagramSocket()){
+                            socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
+                            ip[0] = socket.getLocalAddress().getHostAddress();
+                            System.out.println("PUBLISHER   "+ ip[0]);
+                            server.bind(new InetSocketAddress(ip[0],36997));
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            thread.start();
+
+            thread.join(); //waits till ip is available
+            PublisherThread t=new PublisherThread(this);
             t.start();
             System.out.println("PUBLISHERS THREAD STARTED");
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -115,42 +218,6 @@ public class Publisher extends Thread implements Node{
         return server;
     }
 
-    public void run() {
-
-
-        try {
-            //connect();
-            //addHashtag("#FUNNY,#WOW,#yolo,#phososhooting,#interesting");
-                while(true) {
-                if(!lock.isLocked()){
-
-
-                    if (choice == 1) {
-                        addHashtag("#FUNNY,#WOW,#yolo,#swag");
-                        //addHashtag("#FUNNY,#WOW,#yolo");
-                        //addHashtag("#FUNNY,#WOW,#yolo,#phososhooting,#interesting");
-                        choice=-1;
-
-                    } else if (choice == 2) {
-
-                        areActionsDone = false;
-                        deleteVideo();
-
-                        choice=-1;
-                    }else if (choice == 0){
-
-                        disconnect();
-                        break;
-                    }
-                }
-                }
-
-        } catch (UnknownHostException unknownHost) {
-            System.err.println("You are trying to connect to an unknown host!");
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
-    }
     public synchronized void setChoice(int c){
         this.choice=c;
 
@@ -356,7 +423,7 @@ public class Publisher extends Thread implements Node{
     public MediaMetadataRetriever readMetaData() {
         File dir = getExternalStorageDirectory();
         String path = dir.getAbsolutePath();
-        File  file = new File(path,"/Android/media/"+"Client"+"Vasilis"+"/Publisher/minivideo.mp4");
+        File  file = new File(path,"/Android/media/"+"Client"+channelName+"/Publisher/minivideo.mp4");
 
         if (file.exists()) {
             Log.d("TAG", ".mp4 file Exist");
@@ -393,7 +460,7 @@ public class Publisher extends Thread implements Node{
         VideoFile v= new VideoFile(s,"minivideo",channelName.toString(),retriever.extractMetadata(5),
                 retriever.extractMetadata(9),String.valueOf(Integer.parseInt(retriever.extractMetadata(32))/Integer.parseInt(retriever.extractMetadata(9))),
                 retriever.extractMetadata(18),retriever.extractMetadata(19),hashtags);
-        File file = new File("Client"+channelName.toString()+"/Publisher/" + "minivideo" + ".mp4");
+        File file = new File(getExternalStorageDirectory().getAbsolutePath()+"/Android/media/"+"/Client"+channelName.toString()+"/Publisher/" + "minivideo" + ".mp4");
         BufferedInputStream fileInputStream = new BufferedInputStream(new FileInputStream(file));
         byte[] bytes = new byte[(int) file.length()];
         fileInputStream.read(bytes);

@@ -1,12 +1,14 @@
 package com.example.tiktak;
 
+import android.os.AsyncTask;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketAddress;
 
-public class ActionsForConsumers extends Thread{
+public class ActionsForConsumers extends Thread {
     ObjectInputStream in;
     ObjectOutputStream out;
     SocketAddress consumersPort;
@@ -28,6 +30,7 @@ public class ActionsForConsumers extends Thread{
         }
     }
 
+    @Override
     public void run() {
 
 
@@ -58,7 +61,6 @@ public class ActionsForConsumers extends Thread{
                 ioException.printStackTrace();
             }
         }
-
 
     }
 }

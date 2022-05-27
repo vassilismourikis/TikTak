@@ -1,10 +1,15 @@
 package com.example.tiktak;
 
 
-import java.io.File;
-import java.util.*;
+import android.os.AsyncTask;
+import android.os.Build;
 
-public class Client{
+import java.io.File;
+import java.io.Serializable;
+import java.util.*;
+import static android.os.Environment.getExternalStorageDirectory;
+
+public class Client implements Serializable {
 
 	private Publisher publisher;
 	private Consumer consumer;
@@ -12,19 +17,25 @@ public class Client{
 	static Scanner scanForConsumer;
 	static Scanner scanForPublisher;
 	Client(String name) {
-		System.out.println(name);
+		File dir = getExternalStorageDirectory();
+		String path = dir.getAbsolutePath()+"/Android/media/";
+		new File(path+"Client"+name).mkdir();
+		new File(path+"Client"+name+"/Publisher").mkdir();
+		new File(path+"Client"+name+"/Consumer").mkdir();
 		publisher= new Publisher(name);
 		consumer= new Consumer(name);
-		new File("Client"+name).mkdir();
-		new File("Client"+name+"/Publisher").mkdir();
-		new File("Client"+name+"/Consumer").mkdir();
-		publisher.start();
-		consumer.start();
+
 	}
 
+	public Publisher getPublisher(){
+		return publisher;
+}
 
+	public Consumer getConsumer(){
+		return consumer;
+	}
 
-	
+	/*
 	public static void main(String args[]){
 
 		Client c=new Client("vasilis");
@@ -100,5 +111,5 @@ public class Client{
 		System.out.println("6. Subscribe to a topic");
 		System.out.println("0. Close client ");
 	}
-
+*/
 }

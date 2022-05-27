@@ -102,6 +102,10 @@ networks_hashes=new ArrayList<String>();
 
     }
 
+    public boolean isChannelName(String s){
+        return channelnames.contains(s);
+    }
+
     public static  void main(String args[]){
 
         Socket connection;
@@ -112,16 +116,17 @@ networks_hashes=new ArrayList<String>();
         //broker=new BrokerNode(3,64289);//Broker 3
 
 
-        Thread t = new BrokerThread(broker);
+        BrokerThread t = new BrokerThread(broker);
 
-        t.start();
+
+        t.execute();
 
         while(true){
             try {
                 //waiting for client
                 connection = broker.getSocket().accept();
                 //Πολυνημάτωση: Για κάθε πελάτη, ξεκίνα νέο νήμα, και συνέχισε να δέχεσαι αιτήσεις
-                Thread t1 = new ActionsForClients(connection,broker);
+                ActionsForClients t1 = new ActionsForClients(connection,broker);
                 //με την start ξεκινάει το νέο νήμα
                 // και εκτελείται η .run μέθοδος
                 // Το νέο νήμα παίρνει σαν είσοδο στον constructor του
@@ -252,7 +257,7 @@ networks_hashes=new ArrayList<String>();
                 }
                 hashtags.add(m.getA1());
                 brokersData[2]=new Container(hashtags,channelnames,port);
-                Thread t= new Refresher(brokersData[2],broker);
+                Refresher t= new Refresher(brokersData[2],broker);
                 t.start();
                 //System.out.println("saved at broker with port: " + "                     " + privateSocket.getLocalPort() + "!!!!!!!!!!!!!!!!!!!");
                 //NOTIFY THE REGISTERED UDERS------------------------------------------------------------------------------------------------------------------------
@@ -295,7 +300,7 @@ networks_hashes=new ArrayList<String>();
                 }
                 hashtags.add(m.getA1());
                 brokersData[1]=new Container(hashtags,channelnames,port);
-                Thread t= new Refresher(brokersData[1],broker);
+                Refresher t= new Refresher(brokersData[1],broker);
                 t.start();
                 //System.out.println("saved at broker with port: " + "                     " + privateSocket.getLocalPort() + "!!!!!!!!!!!!!!!!!!!");
                 //NOTIFY THE REGISTERED UDERS------------------------------------------------------------------------------------------------------------------------
@@ -339,7 +344,7 @@ networks_hashes=new ArrayList<String>();
                 }
                 hashtags.add(m.getA1());
                 brokersData[0]=new Container(hashtags,channelnames,port);
-                Thread t= new Refresher(brokersData[0],broker);
+                Refresher t= new Refresher(brokersData[0],broker);
                 t.start();
                 //System.out.println("saved at broker with port: " + "                     " + privateSocket.getLocalPort() + "!!!!!!!!!!!!!!!!!!!");
                 //NOTIFY THE REGISTERED UDERS------------------------------------------------------------------------------------------------------------------------
@@ -410,7 +415,7 @@ networks_hashes=new ArrayList<String>();
                 }
                 channelnames.add(m.getA1());
                 brokersData[2]=new Container(hashtags,channelnames,port);
-                Thread t= new Refresher(brokersData[2],broker);
+                Refresher t= new Refresher(brokersData[2],broker);
                 t.start();
                 //System.out.println("saved at broker with port: " + "                     " + privateSocket.getLocalPort() + "!!!!!!!!!!!!!!!!!!!");
                 //NOTIFY THE REGISTERED UDERS------------------------------------------------------------------------------------------------------------------------
@@ -453,7 +458,7 @@ networks_hashes=new ArrayList<String>();
                 }
                 channelnames.add(m.getA1());
                 brokersData[1]=new Container(hashtags,channelnames,port);
-                Thread t= new Refresher(brokersData[1],broker);
+                Refresher t= new Refresher(brokersData[1],broker);
                 t.start();
                 //System.out.println("saved at broker with port: " + "                     " + privateSocket.getLocalPort() + "!!!!!!!!!!!!!!!!!!!");
                 //NOTIFY THE REGISTERED UDERS------------------------------------------------------------------------------------------------------------------------
@@ -497,7 +502,7 @@ networks_hashes=new ArrayList<String>();
                 }
                 channelnames.add(m.getA1());
                 brokersData[0]=new Container(hashtags,channelnames,port);
-                Thread t= new Refresher(brokersData[0],broker);
+                Refresher t= new Refresher(brokersData[0],broker);
                 t.start();
                 //System.out.println("saved at broker with port: " + "                     " + privateSocket.getLocalPort() + "!!!!!!!!!!!!!!!!!!!");
                 //NOTIFY THE REGISTERED UDERS------------------------------------------------------------------------------------------------------------------------
@@ -671,19 +676,27 @@ networks_hashes=new ArrayList<String>();
 
     public ArrayList<String> getRelatedVideos(String s,String channelName){
         //ArrayList<String> videokeys=new ArrayList<String>();
-        String hashh="";
-        String hash = MD5.getMd5(s);
-        try {
-            byte[] md5hex = MessageDigest.getInstance("MD5").digest(hash.getBytes());
-            hashh=(new BigInteger(MD5.bytesToHex(md5hex),16).mod(big.get(2))).toString();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        if(hashtag_videokey.get(hashh)!=null){
-            return hashtag_videokey.get(hashh);
 
+        if(s!=null){
+            String hashh="";
+            String hash = MD5.getMd5(s);
+            try {
+                byte[] md5hex = MessageDigest.getInstance("MD5").digest(hash.getBytes());
+                hashh=(new BigInteger(MD5.bytesToHex(md5hex),16).mod(big.get(2))).toString();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+            return hashtag_videokey.get(hashh);
         }
         else {
+            String hashh="";
+            String hash = MD5.getMd5(channelName);
+            try {
+                byte[] md5hex = MessageDigest.getInstance("MD5").digest(hash.getBytes());
+                hashh=(new BigInteger(MD5.bytesToHex(md5hex),16).mod(big.get(2))).toString();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
             return channelName_videokey.get(hashh);
         }
 

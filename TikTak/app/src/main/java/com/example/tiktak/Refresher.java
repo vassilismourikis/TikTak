@@ -1,5 +1,7 @@
 package com.example.tiktak;
 
+import android.os.AsyncTask;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -9,7 +11,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Refresher extends Thread{
+public class Refresher extends Thread {
     private Container data;
     private BrokerNode broker;
     private int port1,port2;
@@ -57,6 +59,7 @@ public class Refresher extends Thread{
             ip2=networks.get(1);
         }
     }
+    @Override
     public void run(){
         Socket s1=null,s2=null;
         try {
@@ -84,7 +87,6 @@ public class Refresher extends Thread{
 //            }
 //
 //        }
-
 
     }
 

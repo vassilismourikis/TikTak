@@ -1,11 +1,13 @@
 package com.example.tiktak;
 
 
+import android.os.AsyncTask;
+
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 
-public class PublisherThread extends Thread{
+public class PublisherThread extends Thread {
 
 
     private Socket connection;
@@ -15,18 +17,19 @@ public class PublisherThread extends Thread{
     public PublisherThread(Publisher p){
         connection=null;
         providerSocket=p.getServer();
+        //System.out.println("PUBLISHERS IP:  "+p.getServer().getInetAddress().toString().substring(1));
         this.p=p;
     }
 
     @Override
-    public void run() {
+    public void run(){
         while(true){
             try {
                 //System.out.println("publisher thread");
                 //waiting for client
                 connection = providerSocket.accept();
 
-                Thread t1 = new ActionsForPublishers(connection,p);
+                ActionsForPublishers t1 = new ActionsForPublishers(connection,p);
 
 
                 t1.start();

@@ -1,5 +1,7 @@
 package com.example.tiktak;
 
+import android.os.AsyncTask;
+
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -26,6 +28,7 @@ public class ActionsForBrokers extends Thread {
         }
     }
 
+    @Override
     public void run() {
 
 
@@ -59,5 +62,6 @@ public class ActionsForBrokers extends Thread {
                 ioException.printStackTrace();
             }
         }
+
     }
 }
